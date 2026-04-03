@@ -20,26 +20,24 @@
 }
 
 html, body {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
   background: #03040a;
   color: var(--text);
   font-family: 'DM Mono', monospace;
 }
 
-/* Canvas sits behind everything */
 #canvas {
-  position: absolute;
+  position: fixed;
   top: 0; left: 0;
-  width: 100%; height: 100%;
-  display: block;
+  width: 100%;
+  height: 100%;
   z-index: 0;
 }
 
-/* Grain overlay */
 #grain {
-  position: absolute;
+  position: fixed;
   inset: -200%;
   width: 400%; height: 400%;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
@@ -56,39 +54,34 @@ html, body {
   100% { transform: translate(2%,-2%); }
 }
 
-/* Main UI wrapper — sits above canvas */
 #ui {
-  position: absolute;
+  position: fixed;
   top: 0; left: 0;
-  width: 100%; height: 100%;
+  width: 100vw;
+  height: 100vh;
   z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 80px 24px 60px;
-  pointer-events: none;
 }
 
-/* Logo */
 .logo {
-  position: absolute;
+  position: fixed;
   top: 28px; left: 28px;
   font-size: 13px;
   letter-spacing: 0.15em;
   color: var(--text);
   opacity: 0;
   animation: fadeIn 1s ease 1.2s forwards;
-  pointer-events: auto;
 }
 .logo span { color: var(--accent); }
 
-/* Pill */
 .pill {
-  position: absolute;
-  top: 24px; right: 24px;
+  position: fixed;
+  top: 22px; right: 22px;
   font-size: 10px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--accent);
   border: 1px solid var(--border);
@@ -100,9 +93,6 @@ html, body {
   align-items: center;
   gap: 7px;
   background: rgba(74,240,196,0.04);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  pointer-events: auto;
 }
 .pill-dot {
   width: 5px; height: 5px;
@@ -115,15 +105,14 @@ html, body {
   50% { opacity: 0.2; }
 }
 
-/* Center content */
 .center {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  max-width: 560px;
-  width: 100%;
-  pointer-events: none;
+  width: 90vw;
+  max-width: 540px;
+  padding: 0 16px;
 }
 
 .eyebrow {
@@ -133,12 +122,12 @@ html, body {
   color: var(--accent);
   opacity: 0;
   animation: fadeUp 0.9s ease 0.9s forwards;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(52px, 13vw, 120px);
+  font-size: clamp(48px, 12vw, 120px);
   font-weight: 200;
   line-height: 0.9;
   letter-spacing: -0.02em;
@@ -156,23 +145,21 @@ h1 em {
 
 .tagline {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(14px, 2.5vw, 20px);
+  font-size: clamp(13px, 2.2vw, 19px);
   font-weight: 200;
   font-style: italic;
-  color: rgba(210,235,228,0.8);
+  color: rgba(210,235,228,0.85);
   text-shadow: 0 0 30px rgba(0,0,0,1);
   opacity: 0;
   animation: fadeUp 1s ease 1.15s forwards;
-  margin-bottom: clamp(20px, 4vh, 44px);
+  margin-bottom: clamp(20px, 4vh, 40px);
 }
 
-/* Form */
 .form-wrap {
   width: 100%;
   max-width: 400px;
   opacity: 0;
   animation: fadeUp 1s ease 1.3s forwards;
-  pointer-events: auto;
 }
 
 .input-group {
@@ -180,9 +167,7 @@ h1 em {
   border: 1px solid var(--border);
   border-radius: 5px;
   overflow: hidden;
-  background: rgba(3,4,10,0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(3,4,10,0.8);
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 .input-group:focus-within {
@@ -233,7 +218,6 @@ h1 em {
   opacity: 0.55;
 }
 
-/* Success */
 .success {
   display: none;
   flex-direction: column;
@@ -243,9 +227,6 @@ h1 em {
   border: 1px solid var(--border);
   border-radius: 5px;
   background: rgba(74,240,196,0.04);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  pointer-events: auto;
 }
 .success.show { display: flex; }
 .success-icon { font-size: 20px; color: var(--accent); }
@@ -263,16 +244,15 @@ h1 em {
   line-height: 1.7;
 }
 
-/* Bottom bar */
 .bottom-bar {
-  position: absolute;
+  position: fixed;
   bottom: 24px;
   left: 0; right: 0;
   display: flex;
   justify-content: center;
-  gap: clamp(16px, 5vw, 48px);
+  gap: clamp(12px, 4vw, 48px);
   font-size: 10px;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
   opacity: 0;
@@ -336,18 +316,27 @@ h1 em {
 <script>
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
-let W, H, cx, cy, frame = 0;
+let W, H, cx, cy;
 let mouseX, mouseY;
 let irisRadius, pupilRadius;
 let irisLines = [], irisRings = [], stars = [], orbiters = [];
 const trail = [];
-const MAX_TRAIL = 28;
+const MAX_TRAIL = 24;
+
+function getSize() {
+  return {
+    w: window.innerWidth,
+    h: window.innerHeight
+  };
+}
 
 function resize() {
-  W = canvas.width = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-  cx = W / 2; cy = H / 2;
-  mouseX = cx; mouseY = cy;
+  const { w, h } = getSize();
+  W = canvas.width = w;
+  H = canvas.height = h;
+  cx = W / 2;
+  cy = H / 2;
+  if (!mouseX) { mouseX = cx; mouseY = cy; }
   buildScene();
 }
 
@@ -356,7 +345,7 @@ function buildScene() {
   pupilRadius = irisRadius * 0.28;
 
   stars = [];
-  for (let i = 0; i < 260; i++) {
+  for (let i = 0; i < 240; i++) {
     stars.push({
       x: Math.random(), y: Math.random(),
       r: 0.3 + Math.random() * 1.2,
@@ -393,7 +382,7 @@ function buildScene() {
   }
 
   orbiters = [];
-  for (let i = 0; i < 38; i++) {
+  for (let i = 0; i < 36; i++) {
     orbiters.push({
       angle: Math.random() * Math.PI * 2,
       orbitMult: 0.93 + Math.random() * 0.24,
@@ -407,10 +396,8 @@ function buildScene() {
 }
 
 function draw() {
-  frame++;
   ctx.clearRect(0, 0, W, H);
 
-  // Background
   const bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(W, H) * 0.85);
   bg.addColorStop(0, '#060d11');
   bg.addColorStop(0.55, '#030609');
@@ -426,7 +413,7 @@ function draw() {
     s.phase += s.speed;
     const sx = s.x * W, sy = s.y * H;
     const dx = sx - cx, dy = sy - cy;
-    if (dx*dx + dy*dy < irisRadius * irisRadius * 0.88) return;
+    if (dx*dx + dy*dy < irisRadius * irisRadius * 0.85) return;
     const op = s.baseOp * (0.45 + 0.55 * Math.sin(s.phase));
     ctx.beginPath();
     ctx.arc(sx, sy, s.r, 0, Math.PI * 2);
@@ -458,7 +445,7 @@ function draw() {
   ctx.fillRect(cx - irisRadius, cy - irisRadius, irisRadius * 2, irisRadius * 2);
   ctx.restore();
 
-  // Iris rings
+  // Rings
   irisRings.forEach(ring => {
     ring.phase += ring.rotSpeed;
     const seg = (Math.PI * 2) / ring.dashes;
@@ -473,7 +460,7 @@ function draw() {
     }
   });
 
-  // Iris fibers
+  // Fibers
   irisLines.forEach(ln => {
     ln.phase += 0.0025;
     const op = ln.op * (0.65 + 0.35 * Math.sin(ln.phase));
@@ -509,7 +496,6 @@ function draw() {
   ctx.fillStyle = pg;
   ctx.fill();
 
-  // Pupil shimmer
   const ps = ctx.createRadialGradient(cx - pupilRadius*0.28, cy - pupilRadius*0.28, 0, cx, cy, pupilRadius);
   ps.addColorStop(0, 'rgba(74,240,196,0.07)');
   ps.addColorStop(1, 'rgba(74,240,196,0)');
@@ -557,7 +543,7 @@ function draw() {
     ctx.fill();
   }
 
-  // Mouse iris glow
+  // Mouse glow
   const mdx = mouseX - cx, mdy = mouseY - cy;
   const mdist = Math.sqrt(mdx*mdx + mdy*mdy);
   if (mdist < irisRadius * 1.6) {
@@ -575,7 +561,7 @@ function draw() {
   requestAnimationFrame(draw);
 }
 
-// Mouse / touch tracking
+// Input tracking
 document.addEventListener('mousemove', e => {
   mouseX = e.clientX; mouseY = e.clientY;
   trail.push({ x: e.clientX, y: e.clientY });
@@ -611,9 +597,16 @@ function handleSubmit() {
 
 document.addEventListener('keydown', e => { if (e.key === 'Enter') handleSubmit(); });
 
-window.addEventListener('resize', resize);
-resize();
-draw();
+// Resize — delayed to let iOS settle
+window.addEventListener('resize', () => {
+  setTimeout(resize, 100);
+});
+
+// Init — double delay for iOS
+setTimeout(() => {
+  resize();
+  draw();
+}, 100);
 </script>
 
 </body>
