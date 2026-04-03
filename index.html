@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Macul.ai — Early Access</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;1,200;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+```
+:root {
+  --bg: #03040a;
+  --accent: #4af0c4;
+  --accent2: #1de9b6;
+  --glow: rgba(74, 240, 196, 0.15);
+  --text: #ddeee8;
+  --muted: rgba(200,230,220,0.4);
+  --border: rgba(74,240,196,0.12);
+}
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  cursor: none;
+  user-select: none;
+}
+
+#canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+#grain {
+  position: fixed;
+  inset: -200%;
+  width: 400%; height: 400%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 2;
+  animation: grainShift 0.12s steps(1) infinite;
+}
+@keyframes grainShift {
+  0%  { transform: translate(0,0); }
+  20% { transform: translate(-2%,-3%); }
+  40% { transform: translate(3%,1%); }
+  60% { transform: translate(-1%,4%); }
+  80% { transform: translate(4%,-2%); }
+  100%{ transform: translate(-3%,2%); }
+}
+
+/* Cursor */
+#cur-dot {
+  position: fixed;
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1000;
+  transform: translate(-50%,-50%);
+  box-shadow: 0 0 10px var(--accent), 0 0 30px rgba(74,240,196,0.4);
+}
+#cur-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1px solid rgba(74,240,196,0.45);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 999;
+  transform: translate(-50%,-50%);
+  transition: width .22s, height .22s, border-color .22s;
+}
+
+/* UI layer */
+#ui {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.logo {
+  position: fixed;
+  top: 32px; left: 40px;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  color: var(--text);
+  opacity: 0;
+  animation: fadeIn 1s ease 1.2s forwards;
+}
+.logo span { color: var(--accent); }
+
+.pill {
+  position: fixed;
+  top: 32px; right: 40px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--border);
+  padding: 7px 16px;
+  border-radius: 100px;
+  opacity: 0;
+  animation: fadeIn 1s ease 1.2s forwards;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(12px);
+  background: rgba(74,240,196,0.04);
+}
+.pill-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink {
+  0%,100% { opacity: 1; box-shadow: 0 0 6px var(--accent); }
+  50% { opacity: 0.2; box-shadow: none; }
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 600px;
+}
+
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.9s forwards;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(62px, 12vw, 128px);
+  font-weight: 200;
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  opacity: 0;
+  animation: fadeUp 1s ease 1s forwards;
+  margin-bottom: 6px;
+}
+h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(15px, 2.2vw, 21px);
+  font-weight: 200;
+  font-style: italic;
+  color: var(--muted);
+  opacity: 0;
+  animation: fadeUp 1s ease 1.15s forwards;
+  margin-bottom: 52px;
+}
+
+.form-wrap {
+  width: 100%;
+  max-width: 420px;
+  opacity: 0;
+  animation: fadeUp 1s ease 1.3s forwards;
+}
+
+.input-group {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  background: rgba(3,4,10,0.72);
+  backdrop-filter: blur(24px);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.input-group:focus-within {
+  border-color: rgba(74,240,196,0.38);
+  box-shadow: 0 0 48px rgba(74,240,196,0.07), 0 0 0 1px rgba(74,240,196,0.06);
+}
+
+.input-group input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 300;
+  padding: 16px 20px;
+  letter-spacing: 0.04em;
+  min-width: 0;
+}
+.input-group input::placeholder { color: var(--muted); }
+
+.input-group button {
+  background: var(--accent);
+  border: none;
+  color: #020d08;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0 22px;
+  cursor: none;
+  transition: background 0.2s, box-shadow 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.input-group button:hover {
+  background: #72f7d8;
+  box-shadow: 0 0 28px rgba(74,240,196,0.4);
+}
+
+.form-note {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 14px;
+  opacity: 0.55;
+}
+
+/* Success */
+.success {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 30px 36px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: rgba(74,240,196,0.03);
+  backdrop-filter: blur(20px);
+  animation: fadeUp 0.6s ease forwards;
+}
+.success.show { display: flex; }
+.success-icon { font-size: 20px; color: var(--accent); margin-bottom: 4px; }
+.success h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 300;
+}
+.success p {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.07em;
+  text-align: center;
+  line-height: 1.75;
+}
+
+.bottom-bar {
+  position: fixed;
+  bottom: 28px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0;
+  animation: fadeIn 1s ease 1.9s forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (max-width: 600px) {
+  .logo { top: 20px; left: 20px; font-size: 12px; }
+  .pill { top: 20px; right: 20px; font-size: 9px; padding: 6px 12px; }
+  .bottom-bar { gap: 20px; font-size: 9px; bottom: 16px; flex-wrap: wrap; padding: 0 16px; justify-content: center; }
+  .input-group button { padding: 0 14px; }
+}
+```
+
+  </style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<div id="grain"></div>
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+
+<div id="ui">
+  <div class="logo">macul<span>.ai</span></div>
+  <div class="pill"><div class="pill-dot"></div>Early Access</div>
+
+  <div class="center">
+    <div class="eyebrow">AI · Ophthalmology · Vision</div>
+    <h1>See <em>beyond</em></h1>
+    <p class="tagline">Intelligent infrastructure for the modern eye practice</p>
+
+```
+<div class="form-wrap" id="formWrap">
+  <div class="input-group">
+    <input type="email" id="emailInput" placeholder="your@practice.com" autocomplete="email" />
+    <button onclick="handleSubmit()">Request Access</button>
+  </div>
+  <p class="form-note">No spam — early access updates only</p>
+</div>
+
+<div class="success" id="successBox">
+  <div class="success-icon">◎</div>
+  <h3>You're on the list</h3>
+  <p>We'll reach out when early access opens.<br>Thank you for your interest in Macul.ai.</p>
+</div>
+```
+
+  </div>
+
+  <div class="bottom-bar">
+    <span>Smart Charting</span>
+    <span>AI Diagnostics</span>
+    <span>Seamless Integration</span>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let W, H, cx, cy, mouseX, mouseY, frame = 0;
+
+// State
+let irisRadius, pupilRadius;
+let irisLines = [], irisRings = [], stars = [], orbiters = [];
+const trail = [];
+const MAX_TRAIL = 32;
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  cx = W / 2; cy = H / 2;
+  if (!mouseX) { mouseX = cx; mouseY = cy; }
+  buildScene();
+}
+
+function buildScene() {
+  irisRadius = Math.min(W, H) * 0.35;
+  pupilRadius = irisRadius * 0.28;
+
+  // Stars
+  stars = [];
+  for (let i = 0; i < 280; i++) {
+    stars.push({
+      x: Math.random(), y: Math.random(),
+      r: 0.3 + Math.random() * 1.3,
+      baseOp: 0.1 + Math.random() * 0.65,
+      phase: Math.random() * Math.PI * 2,
+      speed: 0.005 + Math.random() * 0.018,
+      dx: (Math.random() - 0.5) * 0.00007,
+      dy: (Math.random() - 0.5) * 0.00007,
+    });
+  }
+
+  // Iris fiber lines
+  irisLines = [];
+  for (let i = 0; i < 200; i++) {
+    const angle = (i / 200) * Math.PI * 2;
+    irisLines.push({
+      angle,
+      startR: pupilRadius + Math.random() * irisRadius * 0.05,
+      len: (irisRadius - pupilRadius) * (0.5 + Math.random() * 0.48),
+      op: 0.04 + Math.random() * 0.09,
+      width: 0.3 + Math.random() * 0.6,
+      phase: Math.random() * Math.PI * 2,
+    });
+  }
+
+  // Iris rings
+  irisRings = [];
+  for (let r = pupilRadius * 1.05; r < irisRadius * 0.97; r += irisRadius * 0.055) {
+    irisRings.push({
+      r,
+      op: 0.05 + Math.random() * 0.09,
+      dashes: Math.floor(24 + Math.random() * 64),
+      phase: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.0005,
+    });
+  }
+
+  // Orbiters
+  orbiters = [];
+  for (let i = 0; i < 42; i++) {
+    orbiters.push({
+      angle: Math.random() * Math.PI * 2,
+      orbitMult: 0.93 + Math.random() * 0.25,
+      speed: (0.0003 + Math.random() * 0.0009) * (Math.random() > 0.5 ? 1 : -1),
+      size: 0.5 + Math.random() * 2.2,
+      op: 0.2 + Math.random() * 0.65,
+      pulse: Math.random() * Math.PI * 2,
+      pulseSpeed: 0.018 + Math.random() * 0.04,
+    });
+  }
+}
+
+function draw() {
+  frame++;
+  ctx.clearRect(0, 0, W, H);
+
+  // Deep space bg
+  const bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(W, H) * 0.85);
+  bg.addColorStop(0, '#060d11');
+  bg.addColorStop(0.55, '#030609');
+  bg.addColorStop(1, '#010204');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // Stars (skip inside iris)
+  stars.forEach(s => {
+    s.x += s.dx; s.y += s.dy;
+    if (s.x < 0) s.x = 1; if (s.x > 1) s.x = 0;
+    if (s.y < 0) s.y = 1; if (s.y > 1) s.y = 0;
+    s.phase += s.speed;
+    const sx = s.x * W, sy = s.y * H;
+    const dx = sx - cx, dy = sy - cy;
+    if (dx*dx + dy*dy < irisRadius * irisRadius * 0.88) return;
+    const op = s.baseOp * (0.45 + 0.55 * Math.sin(s.phase));
+    ctx.beginPath();
+    ctx.arc(sx, sy, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(210,245,235,${op})`;
+    ctx.fill();
+  });
+
+  // Outer iris glow
+  const og = ctx.createRadialGradient(cx, cy, irisRadius * 0.65, cx, cy, irisRadius * 1.45);
+  og.addColorStop(0, 'rgba(74,240,196,0)');
+  og.addColorStop(0.5, 'rgba(74,240,196,0.045)');
+  og.addColorStop(1, 'rgba(74,240,196,0)');
+  ctx.beginPath();
+  ctx.arc(cx, cy, irisRadius * 1.45, 0, Math.PI * 2);
+  ctx.fillStyle = og;
+  ctx.fill();
+
+  // Iris base fill (clipped)
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(cx, cy, irisRadius, 0, Math.PI * 2);
+  ctx.clip();
+  const ig = ctx.createRadialGradient(cx, cy, pupilRadius, cx, cy, irisRadius);
+  ig.addColorStop(0,   'rgba(18,55,42,0.6)');
+  ig.addColorStop(0.35,'rgba(10,38,28,0.45)');
+  ig.addColorStop(0.72,'rgba(5,18,13,0.3)');
+  ig.addColorStop(1,   'rgba(2,7,5,0.08)');
+  ctx.fillStyle = ig;
+  ctx.fillRect(cx - irisRadius, cy - irisRadius, irisRadius * 2, irisRadius * 2);
+  ctx.restore();
+
+  // Iris rings
+  irisRings.forEach(ring => {
+    ring.phase += ring.rotSpeed;
+    const seg = (Math.PI * 2) / ring.dashes;
+    for (let d = 0; d < ring.dashes; d++) {
+      const a0 = ring.phase + d * seg;
+      const a1 = a0 + seg * 0.52;
+      ctx.beginPath();
+      ctx.arc(cx, cy, ring.r, a0, a1);
+      ctx.strokeStyle = `rgba(74,240,196,${ring.op})`;
+      ctx.lineWidth = 0.55;
+      ctx.stroke();
+    }
+  });
+
+  // Iris fiber lines
+  irisLines.forEach(ln => {
+    ln.phase += 0.0025;
+    const op = ln.op * (0.65 + 0.35 * Math.sin(ln.phase));
+    const x0 = cx + Math.cos(ln.angle) * ln.startR;
+    const y0 = cy + Math.sin(ln.angle) * ln.startR;
+    const x1 = cx + Math.cos(ln.angle) * (ln.startR + ln.len);
+    const y1 = cy + Math.sin(ln.angle) * (ln.startR + ln.len);
+    const g = ctx.createLinearGradient(x0, y0, x1, y1);
+    g.addColorStop(0, `rgba(74,240,196,${op * 1.3})`);
+    g.addColorStop(1, `rgba(74,240,196,0)`);
+    ctx.beginPath();
+    ctx.moveTo(x0, y0);
+    ctx.lineTo(x1, y1);
+    ctx.strokeStyle = g;
+    ctx.lineWidth = ln.width;
+    ctx.stroke();
+  });
+
+  // Limbal ring
+  ctx.beginPath();
+  ctx.arc(cx, cy, irisRadius, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(74,240,196,0.2)';
+  ctx.lineWidth = 1.2;
+  ctx.stroke();
+
+  // Pupil
+  const pg = ctx.createRadialGradient(cx, cy, 0, cx, cy, pupilRadius);
+  pg.addColorStop(0, 'rgba(1,2,5,1)');
+  pg.addColorStop(0.65, 'rgba(2,5,9,0.98)');
+  pg.addColorStop(1, 'rgba(5,14,11,0.92)');
+  ctx.beginPath();
+  ctx.arc(cx, cy, pupilRadius, 0, Math.PI * 2);
+  ctx.fillStyle = pg;
+  ctx.fill();
+
+  // Pupil shimmer
+  const ps = ctx.createRadialGradient(
+    cx - pupilRadius * 0.28, cy - pupilRadius * 0.28, 0,
+    cx, cy, pupilRadius
+  );
+  ps.addColorStop(0, 'rgba(74,240,196,0.07)');
+  ps.addColorStop(1, 'rgba(74,240,196,0)');
+  ctx.beginPath();
+  ctx.arc(cx, cy, pupilRadius, 0, Math.PI * 2);
+  ctx.fillStyle = ps;
+  ctx.fill();
+
+  // Orbiters
+  orbiters.forEach(p => {
+    p.angle += p.speed;
+    p.pulse += p.pulseSpeed;
+    const r = irisRadius * p.orbitMult;
+    const px = cx + Math.cos(p.angle) * r;
+    const py = cy + Math.sin(p.angle) * r;
+    const op = p.op * (0.55 + 0.45 * Math.sin(p.pulse));
+
+    if (p.size > 1.4) {
+      const ex = cx + Math.cos(p.angle) * irisRadius;
+      const ey = cy + Math.sin(p.angle) * irisRadius;
+      ctx.beginPath();
+      ctx.moveTo(px, py);
+      ctx.lineTo(ex, ey);
+      ctx.strokeStyle = `rgba(74,240,196,${op * 0.22})`;
+      ctx.lineWidth = 0.4;
+      ctx.stroke();
+    }
+
+    ctx.beginPath();
+    ctx.arc(px, py, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(74,240,196,${op})`;
+    ctx.fill();
+    if (p.size > 1.2) {
+      ctx.beginPath();
+      ctx.arc(px, py, p.size * 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(74,240,196,${op * 0.12})`;
+      ctx.fill();
+    }
+  });
+
+  // Cursor trail (canvas side)
+  for (let i = 1; i < trail.length; i++) {
+    const t = i / trail.length;
+    ctx.beginPath();
+    ctx.arc(trail[i].x, trail[i].y, t * 2.8, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(74,240,196,${t * 0.45})`;
+    ctx.fill();
+  }
+
+  // Mouse proximity iris interaction
+  const mdx = mouseX - cx, mdy = mouseY - cy;
+  const mdist = Math.sqrt(mdx*mdx + mdy*mdy);
+  if (mdist < irisRadius * 1.6) {
+    const intensity = Math.pow(1 - mdist / (irisRadius * 1.6), 1.5);
+    const mx2 = cx + mdx * 0.55, my2 = cy + mdy * 0.55;
+    const mg = ctx.createRadialGradient(mx2, my2, 0, mx2, my2, irisRadius * 0.52);
+    mg.addColorStop(0, `rgba(74,240,196,${0.1 * intensity})`);
+    mg.addColorStop(1, 'rgba(74,240,196,0)');
+    ctx.beginPath();
+    ctx.arc(mx2, my2, irisRadius * 0.52, 0, Math.PI * 2);
+    ctx.fillStyle = mg;
+    ctx.fill();
+  }
+
+  requestAnimationFrame(draw);
+}
+
+// Cursor
+const dot = document.getElementById('cur-dot');
+const ring = document.getElementById('cur-ring');
+let ringX = 0, ringY = 0, dotPX = 0, dotPY = 0;
+
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX; mouseY = e.clientY;
+  dotPX = e.clientX; dotPY = e.clientY;
+  dot.style.left = dotPX + 'px';
+  dot.style.top  = dotPY + 'px';
+  trail.push({ x: e.clientX, y: e.clientY });
+  if (trail.length > MAX_TRAIL) trail.shift();
+});
+
+(function animRing() {
+  ringX += (dotPX - ringX) * 0.13;
+  ringY += (dotPY - ringY) * 0.13;
+  ring.style.left = ringX + 'px';
+  ring.style.top  = ringY + 'px';
+  requestAnimationFrame(animRing);
+})();
+
+document.querySelectorAll('input, button').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    ring.style.width = '52px';
+    ring.style.height = '52px';
+    ring.style.borderColor = 'rgba(74,240,196,0.75)';
+  });
+  el.addEventListener('mouseleave', () => {
+    ring.style.width = '36px';
+    ring.style.height = '36px';
+    ring.style.borderColor = 'rgba(74,240,196,0.45)';
+  });
+});
+
+// Form
+function handleSubmit() {
+  const input = document.getElementById('emailInput');
+  const email = input.value.trim();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    input.style.color = '#ff7070';
+    setTimeout(() => { input.style.color = ''; }, 1600);
+    input.value = '';
+    input.placeholder = 'valid email required';
+    setTimeout(() => { input.placeholder = 'your@practice.com'; }, 1800);
+    return;
+  }
+  try {
+    const list = JSON.parse(localStorage.getItem('macul_waitlist') || '[]');
+    list.push({ email, ts: new Date().toISOString() });
+    localStorage.setItem('macul_waitlist', JSON.stringify(list));
+  } catch(e) {}
+  document.getElementById('formWrap').style.display = 'none';
+  document.getElementById('successBox').classList.add('show');
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Enter') handleSubmit(); });
+
+window.addEventListener('resize', resize);
+resize();
+draw();
+</script>
+
+</body>
+</html>
