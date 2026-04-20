@@ -26,16 +26,13 @@
       overflow: hidden;
     }
 
-    /* ── Background stars via SVG ── */
     .bg {
       position: fixed;
       inset: 0;
-      background:
-        radial-gradient(ellipse at 50% 50%, #060d11 0%, #020408 60%, #010204 100%);
+      background: radial-gradient(ellipse at 50% 50%, #060d11 0%, #020408 60%, #010204 100%);
       z-index: 0;
     }
 
-    /* Twinkling stars using box-shadow */
     .stars {
       position: fixed;
       inset: 0;
@@ -131,7 +128,6 @@
       100% { opacity: 1; }
     }
 
-    /* ── CSS Iris ── */
     .iris-wrap {
       position: fixed;
       top: 50%; left: 50%;
@@ -163,7 +159,6 @@
         inset 0 0 40px rgba(74,240,196,0.04);
     }
 
-    /* Rotating fiber rings */
     .ring {
       position: absolute;
       inset: 0;
@@ -181,16 +176,12 @@
 
     .ring-1 { inset: 30%; animation: spin 18s linear infinite; }
     .ring-1::before { border-color: rgba(74,240,196,0.14); border-style: dashed; }
-
     .ring-2 { inset: 22%; animation: spin 28s linear infinite reverse; }
     .ring-2::before { border-color: rgba(74,240,196,0.10); }
-
     .ring-3 { inset: 14%; animation: spin 38s linear infinite; }
     .ring-3::before { border-color: rgba(74,240,196,0.08); }
-
     .ring-4 { inset: 6%; animation: spin 48s linear infinite reverse; }
     .ring-4::before { border-color: rgba(74,240,196,0.06); }
-
     .ring-5 { inset: 1%; animation: spin 60s linear infinite; }
     .ring-5::before { border-color: rgba(74,240,196,0.05); }
 
@@ -199,7 +190,6 @@
       to   { transform: rotate(360deg); }
     }
 
-    /* Orbiting particles */
     .orbit {
       position: absolute;
       inset: 0;
@@ -228,7 +218,6 @@
     .o7  { --dur: 20s; --size: 3px; --op: 0.7; inset: -4%; animation-delay: -10s; }
     .o8  { --dur: 25s; --size: 2px; --op: 0.4; inset: -1%; animation-delay: -3s; }
 
-    /* Limbal glow ring */
     .limbal {
       position: absolute;
       inset: 0;
@@ -237,7 +226,6 @@
       box-shadow: 0 0 20px rgba(74,240,196,0.06);
     }
 
-    /* Pupil shimmer */
     .pupil-shimmer {
       position: absolute;
       width: 18%;
@@ -253,7 +241,6 @@
       50% { opacity: 1; }
     }
 
-    /* Grain */
     .grain {
       position: fixed;
       inset: 0;
@@ -264,7 +251,6 @@
       background-size: 200px 200px;
     }
 
-    /* ── UI ── */
     #ui {
       position: fixed;
       inset: 0;
@@ -362,71 +348,47 @@
       width: 100%;
       max-width: 400px;
       pointer-events: auto;
-    }
-
-    .input-group {
       display: flex;
-      border: 1px solid var(--border);
-      border-radius: 5px;
-      overflow: hidden;
-      background: rgba(3,4,10,0.85);
-    }
-    .input-group:focus-within {
-      border-color: rgba(74,240,196,0.4);
-      box-shadow: 0 0 30px rgba(74,240,196,0.06);
+      flex-direction: column;
+      align-items: center;
     }
 
-    .input-group input {
-      flex: 1;
+    .request-btn {
       background: transparent;
-      border: none;
-      outline: none;
-      color: var(--text);
-      font-family: 'DM Mono', monospace;
-      font-size: 13px;
-      font-weight: 300;
-      padding: 15px 16px;
-      min-width: 0;
-      -webkit-appearance: none;
-    }
-    .input-group input::placeholder { color: var(--muted); }
-
-    .input-group button {
-      background: var(--accent);
-      border: none;
-      color: #020d08;
+      border: 1px solid rgba(74,240,196,0.4);
+      color: var(--accent);
       font-family: 'DM Mono', monospace;
       font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
+      font-weight: 400;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      padding: 0 18px;
+      padding: 16px 36px;
+      border-radius: 5px;
       cursor: pointer;
-      white-space: nowrap;
-      flex-shrink: 0;
-      -webkit-appearance: none;
+      transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+      pointer-events: auto;
     }
-    .input-group button:active { background: #72f7d8; }
-
-    .form-note {
-      font-size: 10px;
-      color: var(--muted);
-      text-align: center;
-      margin-top: 12px;
-      opacity: 0.5;
-      letter-spacing: 0.06em;
+    .request-btn:hover {
+      background: rgba(74,240,196,0.06);
+      border-color: rgba(74,240,196,0.7);
+      box-shadow: 0 0 24px rgba(74,240,196,0.08);
+    }
+    .request-btn:active {
+      background: rgba(74,240,196,0.12);
     }
 
     .success {
       display: none;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       padding: 28px 32px;
       border: 1px solid var(--border);
       border-radius: 5px;
       background: rgba(74,240,196,0.04);
       pointer-events: auto;
+      width: 100%;
+      max-width: 400px;
     }
     .success.show { display: flex; }
     .success-icon { font-size: 22px; color: var(--accent); }
@@ -441,6 +403,44 @@
       color: var(--muted);
       text-align: center;
       line-height: 1.7;
+    }
+
+    .email-copy-box {
+      margin-top: 6px;
+      padding: 12px 24px;
+      border: 1px solid rgba(74,240,196,0.3);
+      border-radius: 5px;
+      background: rgba(74,240,196,0.06);
+      color: #4af0c4;
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .email-copy-box:hover {
+      background: rgba(74,240,196,0.1);
+      border-color: rgba(74,240,196,0.5);
+    }
+    .email-copy-box:active {
+      background: rgba(74,240,196,0.16);
+    }
+
+    .copy-confirm {
+      font-size: 10px;
+      color: rgba(74,240,196,0.7);
+      letter-spacing: 0.1em;
+      opacity: 0;
+      transition: opacity 0.3s;
+      height: 16px;
+    }
+
+    .copy-hint {
+      font-size: 10px;
+      color: var(--muted);
+      opacity: 0.5;
+      letter-spacing: 0.06em;
     }
 
     .bottom-bar {
@@ -465,7 +465,6 @@
   <div class="bg"></div>
   <div class="stars"></div>
 
-  <!-- Pure CSS iris -->
   <div class="iris-wrap">
     <div class="iris"></div>
     <div class="ring ring-1"></div>
@@ -497,17 +496,16 @@
       <p class="tagline">Intelligent infrastructure for the modern eye practice</p>
 
       <div class="form-wrap" id="formWrap">
-        <div class="input-group">
-          <input type="email" id="emailInput" placeholder="your@practice.com" autocomplete="email" />
-          <button onclick="handleSubmit()">Request Access</button>
-        </div>
-        <p class="form-note">No spam — early access updates only</p>
+        <button class="request-btn" onclick="handleSubmit()">Request Access</button>
       </div>
 
       <div class="success" id="successBox">
         <div class="success-icon">◎</div>
-        <h3>You're on the list</h3>
-        <p>We'll reach out when early access opens.<br>Thank you for your interest in Macul.ai.</p>
+        <h3>Send us an email</h3>
+        <p>Copy the address below and email us<br>to request early access:</p>
+        <div class="email-copy-box" onclick="copyEmail()">griffin@macul.ai</div>
+        <div class="copy-confirm" id="copyConfirm">✓ copied to clipboard</div>
+        <p class="copy-hint">click the address above to copy</p>
       </div>
     </div>
 
@@ -520,25 +518,24 @@
 
   <script>
     function handleSubmit() {
-      const input = document.getElementById('emailInput');
-      const email = input.value.trim();
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        input.style.color = '#ff7070';
-        setTimeout(() => { input.style.color = ''; }, 1600);
-        input.value = '';
-        input.placeholder = 'valid email required';
-        setTimeout(() => { input.placeholder = 'your@practice.com'; }, 1800);
-        return;
-      }
-      try {
-        const list = JSON.parse(localStorage.getItem('macul_waitlist') || '[]');
-        list.push({ email, ts: new Date().toISOString() });
-        localStorage.setItem('macul_waitlist', JSON.stringify(list));
-      } catch(e) {}
       document.getElementById('formWrap').style.display = 'none';
       document.getElementById('successBox').classList.add('show');
     }
-    document.addEventListener('keydown', e => { if (e.key === 'Enter') handleSubmit(); });
+
+    function copyEmail() {
+      navigator.clipboard.writeText('griffin@macul.ai').then(() => {
+        const confirm = document.getElementById('copyConfirm');
+        const box = document.querySelector('.email-copy-box');
+        box.style.background = 'rgba(74,240,196,0.14)';
+        box.style.borderColor = 'rgba(74,240,196,0.6)';
+        confirm.style.opacity = '1';
+        setTimeout(() => {
+          confirm.style.opacity = '0';
+          box.style.background = 'rgba(74,240,196,0.06)';
+          box.style.borderColor = 'rgba(74,240,196,0.3)';
+        }, 2000);
+      });
+    }
   </script>
 
 </body>
