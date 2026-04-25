@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Support — Macul.ai</title>
+  <meta name="description" content="Quiet, careful support for the work you do." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;1,200;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <style>
+    /* Quick-help grid */
+    .help-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+    @media (max-width: 1000px) { .help-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px)  { .help-grid { grid-template-columns: 1fr; } }
+
+    .help-card {
+      padding: 32px 28px;
+      border: 1px solid var(--border-soft);
+      border-radius: 6px;
+      background: rgba(74, 240, 196, 0.015);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: border-color 0.3s, background 0.3s, transform 0.3s;
+      position: relative;
+    }
+    .help-card:hover {
+      border-color: var(--border);
+      background: rgba(74, 240, 196, 0.04);
+      transform: translateY(-2px);
+    }
+    .help-card .glyph {
+      font-size: 20px;
+      color: var(--accent);
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .help-card h3 {
+      font-size: 21px;
+      margin-bottom: 10px;
+    }
+    .help-card p {
+      font-size: 12.5px;
+    }
+    .help-card .arrow {
+      position: absolute;
+      top: 28px;
+      right: 28px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 16px;
+      transition: color 0.3s, transform 0.3s;
+    }
+    .help-card:hover .arrow {
+      color: var(--accent);
+      transform: translateX(3px);
+    }
+
+    /* FAQ */
+    .faq-list {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .faq-item summary {
+      padding: 24px 0;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      font-family: var(--serif);
+      font-size: clamp(18px, 2.2vw, 22px);
+      font-weight: 300;
+      color: #fff;
+      transition: color 0.2s;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary:hover { color: var(--accent); }
+    .faq-item[open] summary { color: var(--accent); }
+    .faq-item .faq-icon {
+      width: 22px;
+      height: 22px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      position: relative;
+      flex-shrink: 0;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .faq-item[open] .faq-icon { transform: rotate(45deg); border-color: var(--accent); }
+    .faq-item .faq-icon::before,
+    .faq-item .faq-icon::after {
+      content: '';
+      position: absolute;
+      background: var(--accent);
+      top: 50%;
+      left: 50%;
+    }
+    .faq-item .faq-icon::before {
+      width: 10px;
+      height: 1px;
+      transform: translate(-50%, -50%);
+    }
+    .faq-item .faq-icon::after {
+      width: 1px;
+      height: 10px;
+      transform: translate(-50%, -50%);
+    }
+    .faq-item .faq-body {
+      padding: 0 0 24px;
+      max-width: 640px;
+    }
+    .faq-item .faq-body p {
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    /* Status strip */
+    .status-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 28px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: rgba(74, 240, 196, 0.03);
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .status-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .status-pulse {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 0 var(--accent);
+      animation: pulse 2.2s ease-out infinite;
+    }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(74, 240, 196, 0.5); }
+      70%  { box-shadow: 0 0 0 10px rgba(74, 240, 196, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(74, 240, 196, 0); }
+    }
+    .status-text {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text);
+    }
+    .status-text span { color: var(--muted); display: block; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; margin-top: 4px; }
+
+    /* Contact row */
+    .contact-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 800px) { .contact-options { grid-template-columns: 1fr; } }
+
+    .contact-option {
+      padding: 32px 28px;
+      border: 1px solid var(--border-soft);
+      border-radius: 6px;
+      background: rgba(3, 4, 10, 0.5);
+      text-align: center;
+    }
+    .contact-option .glyph {
+      font-size: 22px;
+      color: var(--accent);
+      margin-bottom: 14px;
+      display: block;
+    }
+    .contact-option h4 {
+      margin-bottom: 8px;
+    }
+    .contact-option p {
+      font-size: 12.5px;
+      margin-bottom: 16px;
+    }
+    .contact-option a {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent-dim);
+      padding-bottom: 2px;
+      transition: border-color 0.2s;
+    }
+    .contact-option a:hover { border-color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <div class="bg"></div>
+  <div class="stars"></div>
+  <div class="grain"></div>
+
+  <nav class="nav">
+    <a href="/" class="logo">macul<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="/about/">About</a>
+      <a href="/products/">Products</a>
+      <a href="/support/" class="active">Support</a>
+      <a href="/contact/">Contact</a>
+    </div>
+    <div class="pill"><div class="pill-dot"></div>Early Access</div>
+  </nav>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="hero" style="min-height: 60vh;">
+      <div class="iris-motif">
+        <div class="iris-core"></div>
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
+        <div class="ring r4"></div>
+        <div class="orbit ob1"></div>
+        <div class="orbit ob2"></div>
+        <div class="orbit ob3"></div>
+      </div>
+      <div class="hero-inner">
+        <div class="eyebrow fade-in">Support</div>
+        <h1 class="fade-in delay-1">Here to <em>help</em></h1>
+        <p class="hero-tagline fade-in delay-2">
+          Quiet, careful support — because a clinic day does not pause
+          for a ticketing system.
+        </p>
+      </div>
+    </section>
+
+    <!-- Status -->
+    <section style="padding-top: 0;">
+      <div class="container">
+        <div class="status-strip">
+          <div class="status-info">
+            <div class="status-pulse"></div>
+            <div class="status-text">
+              All systems operational
+              <span>Status updated just now</span>
+            </div>
+          </div>
+          <a href="#" class="btn ghost" style="padding: 10px 20px; font-size: 10px;">View status page</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Quick help -->
+    <section>
+      <div class="container">
+        <div style="margin-bottom: clamp(40px, 6vw, 64px);">
+          <div class="section-label">Quick help</div>
+          <h2>Start <em>here</em>.</h2>
+        </div>
+        <div class="help-grid">
+          <a href="#" class="help-card">
+            <span class="glyph">◎</span>
+            <span class="arrow">→</span>
+            <h3>Getting started</h3>
+            <p>First-day setup, onboarding checklist, and training resources for your team.</p>
+          </a>
+          <a href="#" class="help-card">
+            <span class="glyph">⊙</span>
+            <span class="arrow">→</span>
+            <h3>Documentation</h3>
+            <p>Guides and reference for every feature — from charting flows to integrations.</p>
+          </a>
+          <a href="#" class="help-card">
+            <span class="glyph">◉</span>
+            <span class="arrow">→</span>
+            <h3>Troubleshooting</h3>
+            <p>Common issues, quick fixes, and how to reach us when something is broken.</p>
+          </a>
+          <a href="#" class="help-card">
+            <span class="glyph">⌾</span>
+            <span class="arrow">→</span>
+            <h3>For admins</h3>
+            <p>User management, security posture, data controls, and audit log access.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- FAQ -->
+    <section>
+      <div class="container">
+        <div style="text-align:center; margin-bottom: clamp(40px, 6vw, 64px);">
+          <div class="section-label" style="justify-content:center;">Frequently asked</div>
+          <h2>Common <em>questions</em>.</h2>
+        </div>
+        <div class="faq-list">
+
+          <details class="faq-item">
+            <summary>
+              How does Macul integrate with my existing EHR?
+              <span class="faq-icon"></span>
+            </summary>
+            <div class="faq-body">
+              <p>
+                Placeholder answer. Macul connects via bidirectional sync with
+                major EHR platforms. We handle the mapping, your data stays
+                where it lives, and there's no duplicate data entry required.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              Is Macul HIPAA-compliant?
+              <span class="faq-icon"></span>
+            </summary>
+            <div class="faq-body">
+              <p>
+                Placeholder answer. Yes — Macul is built HIPAA-aligned from the
+                architecture up, with full audit logging, encryption in transit
+                and at rest, and role-based access control.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              How long does onboarding take?
+              <span class="faq-icon"></span>
+            </summary>
+            <div class="faq-body">
+              <p>
+                Placeholder answer. A typical practice is fully onboarded in
+                two to four weeks, depending on the complexity of existing
+                integrations.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              Who owns the data inside Macul?
+              <span class="faq-icon"></span>
+            </summary>
+            <div class="faq-body">
+              <p>
+                Placeholder answer. You do. Your clinical data is yours,
+                portable at any time, and never used for model training
+                without explicit opt-in.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              What if something goes wrong during a clinic day?
+              <span class="faq-icon"></span>
+            </summary>
+            <div class="faq-body">
+              <p>
+                Placeholder answer. Our support team is reachable by phone,
+                email, and in-app during clinic hours, with escalation paths
+                for urgent issues.
+              </p>
+            </div>
+          </details>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Contact options -->
+    <section>
+      <div class="container">
+        <div style="text-align:center; margin-bottom: clamp(40px, 6vw, 64px);">
+          <div class="section-label" style="justify-content:center;">Still need help?</div>
+          <h2>Reach us <em>directly</em>.</h2>
+        </div>
+        <div class="contact-options">
+          <div class="contact-option">
+            <span class="glyph">◎</span>
+            <h4>Email support</h4>
+            <p>For general questions, onboarding, and non-urgent issues.</p>
+            <a href="mailto:support@macul.ai">support@macul.ai</a>
+          </div>
+          <div class="contact-option">
+            <span class="glyph">⊙</span>
+            <h4>Urgent issues</h4>
+            <p>Clinical disruption, downtime, or anything that can't wait.</p>
+            <a href="mailto:urgent@macul.ai">urgent@macul.ai</a>
+          </div>
+          <div class="contact-option">
+            <span class="glyph">◉</span>
+            <h4>Talk to us</h4>
+            <p>Demos, partnerships, and everything sales-adjacent.</p>
+            <a href="/contact/">contact page →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="/" class="logo">macul<span>.ai</span></a>
+          <p>Intelligent infrastructure for the modern eye practice.</p>
+        </div>
+        <div class="footer-nav">
+          <div class="footer-col">
+            <h5>Company</h5>
+            <a href="/about/">About</a>
+            <a href="/contact/">Contact</a>
+          </div>
+          <div class="footer-col">
+            <h5>Platform</h5>
+            <a href="/products/">Products</a>
+            <a href="/support/">Support</a>
+          </div>
+          <div class="footer-col">
+            <h5>Reach</h5>
+            <a href="mailto:griffin@macul.ai">griffin@macul.ai</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© Macul, Inc.</span>
+        <span>Early Access · 2026</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
