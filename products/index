@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Products — Macul.ai</title>
+  <meta name="description" content="A connected suite built around how eye practices actually work." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;1,200;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <style>
+    /* Product row — alternating layout */
+    .product-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 6vw, 96px);
+      align-items: center;
+    }
+    .product-row.reverse .product-text { order: 2; }
+    .product-row.reverse .product-visual { order: 1; }
+    @media (max-width: 850px) {
+      .product-row,
+      .product-row.reverse {
+        grid-template-columns: 1fr;
+      }
+      .product-row.reverse .product-text,
+      .product-row.reverse .product-visual { order: unset; }
+    }
+
+    .product-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .product-features {
+      list-style: none;
+      margin-top: 28px;
+      display: grid;
+      gap: 10px;
+    }
+    .product-features li {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-soft);
+      padding-left: 22px;
+      position: relative;
+    }
+    .product-features li::before {
+      content: '◎';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-size: 11px;
+    }
+
+    /* Product visual — abstract representation */
+    .product-visual {
+      position: relative;
+      aspect-ratio: 1 / 0.85;
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 30% 20%, rgba(74,240,196,0.06) 0%, transparent 60%),
+        linear-gradient(180deg, rgba(6,13,17,0.6), rgba(2,4,8,0.9));
+    }
+    .product-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(74,240,196,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74,240,196,0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+    }
+    .product-visual-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Visual 1 — charting grid */
+    .viz-chart {
+      width: 70%;
+      height: 60%;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 14px;
+      background: rgba(3, 4, 10, 0.6);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 10px;
+    }
+    .viz-chart .row {
+      height: 10px;
+      background: rgba(74, 240, 196, 0.08);
+      border-radius: 2px;
+      position: relative;
+    }
+    .viz-chart .row.accent {
+      background: rgba(74, 240, 196, 0.3);
+      width: 60%;
+    }
+    .viz-chart .stack {
+      display: grid;
+      gap: 6px;
+      align-content: start;
+    }
+    .viz-chart .chip {
+      height: 8px;
+      border-radius: 2px;
+      background: rgba(200,230,220,0.1);
+    }
+    .viz-chart .chip.a { width: 80%; background: rgba(74, 240, 196, 0.25); }
+    .viz-chart .chip.b { width: 55%; }
+    .viz-chart .chip.c { width: 72%; }
+    .viz-chart .chip.d { width: 40%; background: rgba(74, 240, 196, 0.15); }
+
+    /* Visual 2 — diagnostic eye */
+    .viz-iris {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      position: relative;
+      background: radial-gradient(circle at 50% 50%,
+        #010204 0%,
+        #010204 28%,
+        rgba(10,38,28,0.6) 40%,
+        rgba(18,55,42,0.7) 50%,
+        rgba(10,38,28,0.4) 70%,
+        rgba(2,7,5,0.1) 90%);
+      box-shadow: 0 0 40px rgba(74,240,196,0.1);
+    }
+    .viz-iris::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 1px solid rgba(74,240,196,0.25);
+    }
+    .viz-iris::after {
+      content: '';
+      position: absolute;
+      inset: 8%;
+      border-radius: 50%;
+      border: 1px dashed rgba(74,240,196,0.2);
+      animation: spin 32s linear infinite;
+    }
+    .viz-crosshair {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .viz-crosshair .line {
+      position: absolute;
+      background: rgba(74, 240, 196, 0.35);
+    }
+    .viz-crosshair .h {
+      top: 50%;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+    }
+    .viz-crosshair .v {
+      left: 50%;
+      top: 10%;
+      bottom: 10%;
+      width: 1px;
+    }
+    .viz-dot {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+    }
+    .viz-label {
+      position: absolute;
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding: 4px 8px;
+      border: 1px solid var(--border);
+      background: rgba(3, 4, 10, 0.85);
+      border-radius: 3px;
+    }
+
+    /* Visual 3 — integration nodes */
+    .viz-nodes {
+      width: 80%;
+      height: 80%;
+      position: relative;
+    }
+    .node {
+      position: absolute;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(3, 4, 10, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.14em;
+    }
+    .node.center {
+      width: 80px;
+      height: 80px;
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 20px rgba(74, 240, 196, 0.2);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+    .node.n1 { top: 8%; left: 20%; }
+    .node.n2 { top: 8%; right: 20%; }
+    .node.n3 { bottom: 8%; left: 20%; }
+    .node.n4 { bottom: 8%; right: 20%; }
+    .viz-link {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 1px;
+      height: 100px;
+      transform-origin: top center;
+      background: linear-gradient(180deg, rgba(74,240,196,0.4), transparent);
+    }
+    .viz-link.l1 { transform: translate(-50%, 0) rotate(45deg); }
+    .viz-link.l2 { transform: translate(-50%, 0) rotate(135deg); }
+    .viz-link.l3 { transform: translate(-50%, 0) rotate(225deg); }
+    .viz-link.l4 { transform: translate(-50%, 0) rotate(315deg); }
+
+    /* Feature strip */
+    .feature-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      background: var(--border-soft);
+      border: 1px solid var(--border-soft);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .feature-strip .cell {
+      padding: 32px 24px;
+      background: rgba(3, 4, 10, 0.8);
+    }
+    .feature-strip h4 { margin-bottom: 10px; }
+    .feature-strip p { font-size: 12px; }
+    @media (max-width: 900px) { .feature-strip { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .feature-strip { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <div class="bg"></div>
+  <div class="stars"></div>
+  <div class="grain"></div>
+
+  <nav class="nav">
+    <a href="/" class="logo">macul<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="/about/">About</a>
+      <a href="/products/" class="active">Products</a>
+      <a href="/support/">Support</a>
+      <a href="/contact/">Contact</a>
+    </div>
+    <div class="pill"><div class="pill-dot"></div>Early Access</div>
+  </nav>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="iris-motif">
+        <div class="iris-core"></div>
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
+        <div class="ring r4"></div>
+        <div class="orbit ob1"></div>
+        <div class="orbit ob2"></div>
+        <div class="orbit ob3"></div>
+      </div>
+      <div class="hero-inner">
+        <div class="eyebrow fade-in">The Platform</div>
+        <h1 class="fade-in delay-1">Our <em>instruments</em></h1>
+        <p class="hero-tagline fade-in delay-2">
+          A connected suite, built around how the modern eye practice
+          actually works.
+        </p>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Product 1 — Smart Charting -->
+    <section>
+      <div class="container">
+        <div class="product-row">
+          <div class="product-text">
+            <span class="product-num">01 · Charting</span>
+            <h2>Smart <em>Charting</em></h2>
+            <p class="lead">
+              Clinical notes that write themselves — and read like you wrote
+              them.
+            </p>
+            <p>
+              Macul listens, structures, and drafts. The clinician reviews,
+              edits, signs. Voice, image, and prior history flow into a
+              single note in the format your practice expects.
+            </p>
+            <ul class="product-features">
+              <li>Ambient clinical documentation</li>
+              <li>Specialty-tuned language models</li>
+              <li>Template-aware, not template-bound</li>
+              <li>Full edit history and audit trail</li>
+            </ul>
+          </div>
+          <div class="product-visual">
+            <div class="product-visual-inner">
+              <div class="viz-chart">
+                <div class="row accent"></div>
+                <div class="stack">
+                  <div class="chip a"></div>
+                  <div class="chip b"></div>
+                  <div class="chip c"></div>
+                  <div class="chip d"></div>
+                  <div class="chip b"></div>
+                </div>
+                <div class="row"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Product 2 — AI Diagnostics -->
+    <section>
+      <div class="container">
+        <div class="product-row reverse">
+          <div class="product-text">
+            <span class="product-num">02 · Diagnostics</span>
+            <h2>AI <em>Diagnostics</em></h2>
+            <p class="lead">
+              Image-aware assistance, calibrated to clinical reality.
+            </p>
+            <p>
+              Macul's vision models flag findings, quantify change over time,
+              and present the evidence alongside — so every decision remains
+              yours, with more context than you had a moment ago.
+            </p>
+            <ul class="product-features">
+              <li>OCT, fundus, and anterior segment support</li>
+              <li>Change detection across prior visits</li>
+              <li>Evidence-linked, explainable outputs</li>
+              <li>Continuously validated against clinical data</li>
+            </ul>
+          </div>
+          <div class="product-visual">
+            <div class="product-visual-inner">
+              <div style="position:relative;">
+                <div class="viz-iris"></div>
+                <div class="viz-crosshair">
+                  <div class="line h"></div>
+                  <div class="line v"></div>
+                </div>
+                <div class="viz-dot" style="top: 28%; left: 32%;"></div>
+                <div class="viz-dot" style="top: 64%; left: 70%;"></div>
+                <div class="viz-label" style="top: 14%; right: -12%;">Ø 0.42</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Product 3 — Seamless Integration -->
+    <section>
+      <div class="container">
+        <div class="product-row">
+          <div class="product-text">
+            <span class="product-num">03 · Integration</span>
+            <h2>Seamless <em>Integration</em></h2>
+            <p class="lead">
+              The systems you already use — connected, finally, to each other.
+            </p>
+            <p>
+              Macul sits at the center of your tools, not on top of them. EHR,
+              imaging devices, scheduling, billing — all speaking in one voice,
+              inside a single surface.
+            </p>
+            <ul class="product-features">
+              <li>Bidirectional EHR synchronization</li>
+              <li>Native device and DICOM support</li>
+              <li>HIPAA-aligned by default</li>
+              <li>Zero-disruption deployment</li>
+            </ul>
+          </div>
+          <div class="product-visual">
+            <div class="product-visual-inner">
+              <div class="viz-nodes">
+                <div class="viz-link l1"></div>
+                <div class="viz-link l2"></div>
+                <div class="viz-link l3"></div>
+                <div class="viz-link l4"></div>
+                <div class="node n1">EHR</div>
+                <div class="node n2">OCT</div>
+                <div class="node n3">RCM</div>
+                <div class="node n4">SCH</div>
+                <div class="node center">◎</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Feature strip -->
+    <section>
+      <div class="container">
+        <div style="text-align:center; margin-bottom: clamp(40px, 6vw, 72px);">
+          <div class="section-label" style="justify-content:center;">At every layer</div>
+          <h2>Built for <em>practice</em>.</h2>
+        </div>
+        <div class="feature-strip">
+          <div class="cell">
+            <h4>Secure</h4>
+            <p>HIPAA-aligned architecture with full audit logging and role-based access.</p>
+          </div>
+          <div class="cell">
+            <h4>Validated</h4>
+            <p>Every model backed by peer-reviewed evaluation and clinical partnership.</p>
+          </div>
+          <div class="cell">
+            <h4>Open</h4>
+            <p>Your data remains yours. Export, migrate, and integrate without friction.</p>
+          </div>
+          <div class="cell">
+            <h4>Supported</h4>
+            <p>Real humans, real practice experience, reachable when it matters.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section>
+      <div class="container text-center">
+        <h2>See it <em>in motion</em>.</h2>
+        <p class="max-prose mx-auto mt-lg" style="margin-bottom: 36px;">
+          We're onboarding a small number of practices into early access.
+          Reach out and we'll show you around.
+        </p>
+        <a href="/contact/" class="btn">Request a demo</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="/" class="logo">macul<span>.ai</span></a>
+          <p>Intelligent infrastructure for the modern eye practice.</p>
+        </div>
+        <div class="footer-nav">
+          <div class="footer-col">
+            <h5>Company</h5>
+            <a href="/about/">About</a>
+            <a href="/contact/">Contact</a>
+          </div>
+          <div class="footer-col">
+            <h5>Platform</h5>
+            <a href="/products/">Products</a>
+            <a href="/support/">Support</a>
+          </div>
+          <div class="footer-col">
+            <h5>Reach</h5>
+            <a href="mailto:griffin@macul.ai">griffin@macul.ai</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© Macul, Inc.</span>
+        <span>Early Access · 2026</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
