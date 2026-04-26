@@ -3,92 +3,176 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Support — Macul.ai</title>
-  <meta name="description" content="Quiet, careful support for the work you do." />
+  <title>Support — MaculAI</title>
+  <meta name="description" content="Help, documentation, and resources for MaculAI." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;1,200;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
   <link rel="icon" type="image/png" href="/favicon.png" />
   <style>
-    /* Quick-help grid */
-    .help-grid {
+    /* Professional cosmos: matches About / Products */
+
+    .hero .iris-motif {
+      transform: translate(-50%, -50%);
+      opacity: 0.32;
+      width: 360px;
+      height: 360px;
+    }
+    .hero .iris-motif .ring { animation: none !important; }
+    .hero .iris-motif .ring::before {
+      border-style: solid !important;
+      border-color: rgba(74, 240, 196, 0.08) !important;
+    }
+    .hero .iris-motif .orbit { display: none; }
+
+    .hero {
+      min-height: 42vh;
+      padding-top: 110px;
+      padding-bottom: 50px;
+    }
+    .hero h1.brand {
+      font-family: var(--mono);
+      font-size: clamp(34px, 5vw, 56px);
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 0 60px rgba(0,0,0,0.85);
+      margin: 0;
+      line-height: 1;
+    }
+
+    /* Soft status banner under hero */
+    .status-banner {
+      max-width: 720px;
+      margin: 28px auto 0;
+      padding: 14px 24px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: rgba(74, 240, 196, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .status-banner .pulse {
+      width: 7px;
+      height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent);
+      animation: blink 3s ease-in-out infinite;
+    }
+    .hero-tagline-soft {
+      max-width: 540px;
+      margin: 18px auto 0;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--text-soft);
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    /* Section heading: blueprint label */
+    .section-heading {
+      font-family: var(--mono);
+      font-size: clamp(13px, 1.3vw, 15px);
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .section-heading::before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* Resource cards grid */
+    .resource-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 18px;
     }
-    @media (max-width: 1000px) { .help-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 500px)  { .help-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 1000px) { .resource-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px)  { .resource-grid { grid-template-columns: 1fr; } }
 
-    .help-card {
-      padding: 32px 28px;
+    .resource-card {
+      padding: 28px 24px;
       border: 1px solid var(--border-soft);
-      border-radius: 6px;
-      background: rgba(74, 240, 196, 0.015);
-      text-decoration: none;
-      color: inherit;
-      display: block;
-      transition: border-color 0.3s, background 0.3s, transform 0.3s;
-      position: relative;
+      border-radius: 4px;
+      background: rgba(74, 240, 196, 0.012);
+      transition: border-color 0.3s, background 0.3s;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
-    .help-card:hover {
+    .resource-card:hover {
       border-color: var(--border);
-      background: rgba(74, 240, 196, 0.04);
-      transform: translateY(-2px);
+      background: rgba(74, 240, 196, 0.03);
     }
-    .help-card .glyph {
-      font-size: 20px;
-      color: var(--accent);
-      display: inline-block;
-      margin-bottom: 16px;
-    }
-    .help-card h3 {
-      font-size: 21px;
-      margin-bottom: 10px;
-    }
-    .help-card p {
-      font-size: 12.5px;
-    }
-    .help-card .arrow {
-      position: absolute;
-      top: 28px;
-      right: 28px;
-      color: var(--muted);
+    .resource-card .title {
       font-family: var(--mono);
-      font-size: 16px;
-      transition: color 0.3s, transform 0.3s;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 4px;
     }
-    .help-card:hover .arrow {
-      color: var(--accent);
-      transform: translateX(3px);
+    .resource-card p {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--text-soft);
+      margin: 0;
+      flex: 1;
     }
 
-    /* FAQ */
+    /* FAQ accordion */
     .faq-list {
-      max-width: 780px;
-      margin: 0 auto;
+      max-width: 820px;
     }
     .faq-item {
       border-bottom: 1px solid var(--border-soft);
     }
     .faq-item summary {
-      padding: 24px 0;
+      padding: 22px 0;
       cursor: pointer;
       list-style: none;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 20px;
-      font-family: var(--serif);
-      font-size: clamp(18px, 2.2vw, 22px);
-      font-weight: 300;
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
       color: #fff;
       transition: color 0.2s;
     }
     .faq-item summary::-webkit-details-marker { display: none; }
     .faq-item summary:hover { color: var(--accent); }
     .faq-item[open] summary { color: var(--accent); }
-    .faq-item .faq-icon {
+
+    .faq-icon {
       width: 22px;
       height: 22px;
       border: 1px solid var(--border);
@@ -97,110 +181,119 @@
       flex-shrink: 0;
       transition: border-color 0.3s, transform 0.3s;
     }
-    .faq-item[open] .faq-icon { transform: rotate(45deg); border-color: var(--accent); }
-    .faq-item .faq-icon::before,
-    .faq-item .faq-icon::after {
+    .faq-item[open] .faq-icon {
+      transform: rotate(45deg);
+      border-color: var(--accent);
+    }
+    .faq-icon::before,
+    .faq-icon::after {
       content: '';
       position: absolute;
       background: var(--accent);
       top: 50%;
       left: 50%;
     }
-    .faq-item .faq-icon::before {
+    .faq-icon::before {
       width: 10px;
       height: 1px;
       transform: translate(-50%, -50%);
     }
-    .faq-item .faq-icon::after {
+    .faq-icon::after {
       width: 1px;
       height: 10px;
       transform: translate(-50%, -50%);
     }
-    .faq-item .faq-body {
+
+    .faq-body {
       padding: 0 0 24px;
-      max-width: 640px;
+      max-width: 680px;
     }
-    .faq-item .faq-body p {
-      font-size: 14px;
+    .faq-body p {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 300;
       line-height: 1.8;
+      color: var(--text-soft);
+      margin: 0;
     }
 
-    /* Status strip */
-    .status-strip {
+    /* System status block */
+    .system-status {
+      max-width: 820px;
+      padding: 26px 30px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: rgba(74, 240, 196, 0.025);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 22px 28px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      background: rgba(74, 240, 196, 0.03);
       gap: 20px;
       flex-wrap: wrap;
     }
-    .status-info {
+    .system-status .left {
       display: flex;
       align-items: center;
       gap: 14px;
     }
-    .status-pulse {
+    .system-status .pulse {
       width: 10px;
       height: 10px;
-      border-radius: 50%;
       background: var(--accent);
+      border-radius: 50%;
       box-shadow: 0 0 0 0 var(--accent);
-      animation: pulse 2.2s ease-out infinite;
+      animation: pulse-ring 2.4s ease-out infinite;
     }
-    @keyframes pulse {
+    @keyframes pulse-ring {
       0%   { box-shadow: 0 0 0 0 rgba(74, 240, 196, 0.5); }
-      70%  { box-shadow: 0 0 0 10px rgba(74, 240, 196, 0); }
+      70%  { box-shadow: 0 0 0 12px rgba(74, 240, 196, 0); }
       100% { box-shadow: 0 0 0 0 rgba(74, 240, 196, 0); }
     }
-    .status-text {
+    .system-status .label {
       font-family: var(--mono);
-      font-size: 12px;
-      color: var(--text);
+      font-size: 13px;
+      color: #fff;
     }
-    .status-text span { color: var(--muted); display: block; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; margin-top: 4px; }
-
-    /* Contact row */
-    .contact-options {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+    .system-status .label small {
+      display: block;
+      margin-top: 4px;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
-    @media (max-width: 800px) { .contact-options { grid-template-columns: 1fr; } }
 
-    .contact-option {
-      padding: 32px 28px;
+    /* Need help block */
+    .need-help {
+      max-width: 720px;
+      padding: 36px 32px;
       border: 1px solid var(--border-soft);
-      border-radius: 6px;
+      border-radius: 4px;
       background: rgba(3, 4, 10, 0.5);
       text-align: center;
     }
-    .contact-option .glyph {
-      font-size: 22px;
-      color: var(--accent);
-      margin-bottom: 14px;
-      display: block;
-    }
-    .contact-option h4 {
-      margin-bottom: 8px;
-    }
-    .contact-option p {
-      font-size: 12.5px;
-      margin-bottom: 16px;
-    }
-    .contact-option a {
+    .need-help h3 {
       font-family: var(--mono);
-      font-size: 12px;
-      letter-spacing: 0.1em;
-      color: var(--accent);
-      text-decoration: none;
-      border-bottom: 1px solid var(--accent-dim);
-      padding-bottom: 2px;
-      transition: border-color 0.2s;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 12px;
     }
-    .contact-option a:hover { border-color: var(--accent); }
+    .need-help p {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--text-soft);
+      margin: 0 0 24px;
+    }
+
+    /* Section spacing */
+    section { padding: clamp(60px, 7vw, 90px) 0; }
+
+    .pill-dot { animation-duration: 3.2s; }
+    .fade-in { animation-duration: 1.2s; }
   </style>
 </head>
 <body>
@@ -223,77 +316,55 @@
   <main>
 
     <!-- Hero -->
-    <section class="hero" style="min-height: 60vh;">
+    <section class="hero">
       <div class="iris-motif">
         <div class="iris-core"></div>
         <div class="ring r1"></div>
         <div class="ring r2"></div>
         <div class="ring r3"></div>
         <div class="ring r4"></div>
-        <div class="orbit ob1"></div>
-        <div class="orbit ob2"></div>
-        <div class="orbit ob3"></div>
       </div>
       <div class="hero-inner">
         <div class="eyebrow fade-in">Support</div>
-        <h1 class="fade-in delay-1">Here to <em>help</em></h1>
-        <p class="hero-tagline fade-in delay-2">
-          Quiet, careful support — because a clinic day does not pause
-          for a ticketing system.
-        </p>
-      </div>
-    </section>
-
-    <!-- Status -->
-    <section style="padding-top: 0;">
-      <div class="container">
-        <div class="status-strip">
-          <div class="status-info">
-            <div class="status-pulse"></div>
-            <div class="status-text">
-              All systems operational
-              <span>Status updated just now</span>
-            </div>
-          </div>
-          <a href="#" class="btn ghost" style="padding: 10px 20px; font-size: 10px;">View status page</a>
+        <h1 class="brand fade-in delay-1">HELP CENTER</h1>
+        <div class="status-banner fade-in delay-2">
+          <span class="pulse"></span>Coming Soon
         </div>
+        <p class="hero-tagline-soft fade-in delay-3">
+          A full support center with documentation, guides, and
+          FAQs will launch alongside the platform.
+        </p>
       </div>
     </section>
 
     <div class="divider"></div>
 
-    <!-- Quick help -->
+    <!-- Resources -->
     <section>
       <div class="container">
-        <div style="margin-bottom: clamp(40px, 6vw, 64px);">
-          <div class="section-label">Quick help</div>
-          <h2>Start <em>here</em>.</h2>
-        </div>
-        <div class="help-grid">
-          <a href="#" class="help-card">
-            <span class="glyph">◎</span>
-            <span class="arrow">→</span>
-            <h3>Getting started</h3>
-            <p>First-day setup, onboarding checklist, and training resources for your team.</p>
-          </a>
-          <a href="#" class="help-card">
-            <span class="glyph">⊙</span>
-            <span class="arrow">→</span>
-            <h3>Documentation</h3>
-            <p>Guides and reference for every feature — from charting flows to integrations.</p>
-          </a>
-          <a href="#" class="help-card">
-            <span class="glyph">◉</span>
-            <span class="arrow">→</span>
-            <h3>Troubleshooting</h3>
+        <div class="section-heading">What Will Live Here</div>
+        <div class="resource-grid">
+
+          <div class="resource-card">
+            <div class="title">Getting Started</div>
+            <p>First-day setup, onboarding, and training resources for the practice team.</p>
+          </div>
+
+          <div class="resource-card">
+            <div class="title">Documentation</div>
+            <p>Guides and reference for every system in the platform.</p>
+          </div>
+
+          <div class="resource-card">
+            <div class="title">Troubleshooting</div>
             <p>Common issues, quick fixes, and how to reach us when something is broken.</p>
-          </a>
-          <a href="#" class="help-card">
-            <span class="glyph">⌾</span>
-            <span class="arrow">→</span>
-            <h3>For admins</h3>
+          </div>
+
+          <div class="resource-card">
+            <div class="title">For Admins</div>
             <p>User management, security posture, data controls, and audit log access.</p>
-          </a>
+          </div>
+
         </div>
       </div>
     </section>
@@ -303,78 +374,59 @@
     <!-- FAQ -->
     <section>
       <div class="container">
-        <div style="text-align:center; margin-bottom: clamp(40px, 6vw, 64px);">
-          <div class="section-label" style="justify-content:center;">Frequently asked</div>
-          <h2>Common <em>questions</em>.</h2>
-        </div>
+        <div class="section-heading">Frequently Asked</div>
         <div class="faq-list">
 
           <details class="faq-item">
             <summary>
-              How does Macul integrate with my existing EHR?
+              When will MaculAI be available?
               <span class="faq-icon"></span>
             </summary>
             <div class="faq-body">
               <p>
-                Placeholder answer. Macul connects via bidirectional sync with
-                major EHR platforms. We handle the mapping, your data stays
-                where it lives, and there's no duplicate data entry required.
+                MaculAI is currently in active development. Updates
+                will be posted here as systems come online.
               </p>
             </div>
           </details>
 
           <details class="faq-item">
             <summary>
-              Is Macul HIPAA-compliant?
+              Is MaculAI HIPAA-compliant?
               <span class="faq-icon"></span>
             </summary>
             <div class="faq-body">
               <p>
-                Placeholder answer. Yes — Macul is built HIPAA-aligned from the
-                architecture up, with full audit logging, encryption in transit
-                and at rest, and role-based access control.
+                Yes. MaculAI is being built HIPAA-aligned from the
+                architecture up. Compliance and security details will
+                be published in the documentation section.
               </p>
             </div>
           </details>
 
           <details class="faq-item">
             <summary>
-              How long does onboarding take?
+              Can MaculAI integrate with the diagnostic equipment we already own?
               <span class="faq-icon"></span>
             </summary>
             <div class="faq-body">
               <p>
-                Placeholder answer. A typical practice is fully onboarded in
-                two to four weeks, depending on the complexity of existing
-                integrations.
+                Yes. MaculAI is designed for native integration with
+                the diagnostic platforms and EHR systems practices
+                already use. Integration documentation will be
+                published as systems come online.
               </p>
             </div>
           </details>
 
           <details class="faq-item">
             <summary>
-              Who owns the data inside Macul?
+              How does pricing work?
               <span class="faq-icon"></span>
             </summary>
             <div class="faq-body">
               <p>
-                Placeholder answer. You do. Your clinical data is yours,
-                portable at any time, and never used for model training
-                without explicit opt-in.
-              </p>
-            </div>
-          </details>
-
-          <details class="faq-item">
-            <summary>
-              What if something goes wrong during a clinic day?
-              <span class="faq-icon"></span>
-            </summary>
-            <div class="faq-body">
-              <p>
-                Placeholder answer. Our support team is reachable by phone,
-                email, and in-app during clinic hours, with escalation paths
-                for urgent issues.
+                Pricing will be published alongside the platform launch.
               </p>
             </div>
           </details>
@@ -385,32 +437,33 @@
 
     <div class="divider"></div>
 
-    <!-- Contact options -->
+    <!-- System status -->
     <section>
       <div class="container">
-        <div style="text-align:center; margin-bottom: clamp(40px, 6vw, 64px);">
-          <div class="section-label" style="justify-content:center;">Still need help?</div>
-          <h2>Reach us <em>directly</em>.</h2>
+        <div class="section-heading">System Status</div>
+        <div class="system-status">
+          <div class="left">
+            <div class="pulse"></div>
+            <div class="label">
+              In active development
+              <small>Updated automatically as the platform comes online</small>
+            </div>
+          </div>
         </div>
-        <div class="contact-options">
-          <div class="contact-option">
-            <span class="glyph">◎</span>
-            <h4>Email support</h4>
-            <p>For general questions, onboarding, and non-urgent issues.</p>
-            <a href="mailto:support@macul.ai">support@macul.ai</a>
-          </div>
-          <div class="contact-option">
-            <span class="glyph">⊙</span>
-            <h4>Urgent issues</h4>
-            <p>Clinical disruption, downtime, or anything that can't wait.</p>
-            <a href="mailto:urgent@macul.ai">urgent@macul.ai</a>
-          </div>
-          <div class="contact-option">
-            <span class="glyph">◉</span>
-            <h4>Talk to us</h4>
-            <p>Demos, partnerships, and everything sales-adjacent.</p>
-            <a href="/contact/">contact page →</a>
-          </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Need help -->
+    <section>
+      <div class="container">
+        <div class="need-help mx-auto">
+          <h3>Need help in the meantime?</h3>
+          <p>
+            For anything not yet covered here, reach out directly.
+          </p>
+          <a href="/contact/" class="btn">Contact</a>
         </div>
       </div>
     </section>
@@ -442,7 +495,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© Macul, Inc.</span>
+        <span>© MaculAI, LLC</span>
         <span>Early Access · 2026</span>
       </div>
     </div>
