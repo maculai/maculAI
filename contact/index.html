@@ -3,216 +3,152 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Contact — Macul.ai</title>
-  <meta name="description" content="Reach out. We read everything." />
+  <title>Contact — MaculAI</title>
+  <meta name="description" content="Reach out. Waitlist, partnerships, investors, or anything else." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;1,200;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
   <link rel="icon" type="image/png" href="/favicon.png" />
   <style>
-    /* Two-column contact layout */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
-      gap: clamp(40px, 6vw, 96px);
-      align-items: start;
+    /* Professional cosmos: matches About / Products / Support */
+
+    .hero .iris-motif {
+      transform: translate(-50%, -50%);
+      opacity: 0.35;
+      width: 360px;
+      height: 360px;
     }
-    @media (max-width: 900px) {
-      .contact-grid { grid-template-columns: 1fr; }
+    .hero .iris-motif .ring { animation: none !important; }
+    .hero .iris-motif .ring::before {
+      border-style: solid !important;
+      border-color: rgba(74, 240, 196, 0.08) !important;
+    }
+    .hero .iris-motif .orbit { display: none; }
+
+    .hero {
+      min-height: 50vh;
+      padding-top: 110px;
+      padding-bottom: 50px;
+    }
+    .hero h1.brand {
+      font-family: var(--mono);
+      font-size: clamp(34px, 5vw, 56px);
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 0 60px rgba(0,0,0,0.85);
+      margin: 0;
+      line-height: 1;
     }
 
-    /* Channels list */
-    .channels {
-      display: grid;
-      gap: 18px;
+    /* Contact block */
+    .contact-block {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 0 24px;
     }
-    .channel {
-      padding: 26px 28px;
-      border: 1px solid var(--border-soft);
-      border-radius: 6px;
-      background: rgba(74, 240, 196, 0.015);
-      display: flex;
-      align-items: flex-start;
-      gap: 20px;
-      text-decoration: none;
-      color: inherit;
-      transition: border-color 0.3s, background 0.3s, transform 0.3s;
+    .contact-intro {
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.85;
+      color: var(--text-soft);
+      margin-bottom: 48px;
     }
-    .channel:hover {
-      border-color: var(--border);
+
+    /* Email card — the main CTA */
+    .email-card {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 36px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
       background: rgba(74, 240, 196, 0.04);
+      font-family: var(--mono);
+      font-size: clamp(16px, 2vw, 20px);
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+      user-select: all;
+    }
+    .email-card:hover {
+      background: rgba(74, 240, 196, 0.08);
+      border-color: rgba(74, 240, 196, 0.5);
+      box-shadow: 0 0 24px rgba(74, 240, 196, 0.12);
       transform: translateY(-1px);
     }
-    .channel .glyph {
-      font-size: 22px;
-      color: var(--accent);
-      line-height: 1;
-      padding-top: 4px;
-      flex-shrink: 0;
-    }
-    .channel .body { flex: 1; }
-    .channel h4 {
-      margin-bottom: 6px;
-      color: var(--accent);
-    }
-    .channel .value {
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: 19px;
-      color: #fff;
-      margin-bottom: 6px;
-      display: block;
-    }
-    .channel .meta {
-      font-family: var(--mono);
-      font-size: 11.5px;
-      color: var(--muted);
-      line-height: 1.6;
+    .email-card:active {
+      background: rgba(74, 240, 196, 0.14);
     }
 
-    /* Form card */
-    .form-card {
-      padding: clamp(28px, 4vw, 44px);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background:
-        radial-gradient(ellipse at 80% -20%, rgba(74, 240, 196, 0.05) 0%, transparent 60%),
-        rgba(3, 4, 10, 0.6);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-    .form-card h3 {
-      margin-bottom: 8px;
-    }
-    .form-card .form-sub {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 28px;
-    }
-
-    .field {
-      margin-bottom: 22px;
-    }
-    .field label {
-      display: block;
+    .copy-confirm {
+      margin-top: 16px;
       font-family: var(--mono);
       font-size: 10px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 10px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      height: 14px;
     }
-    .field input,
-    .field textarea,
-    .field select {
-      width: 100%;
-      background: rgba(3, 4, 10, 0.6);
-      border: 1px solid var(--border-soft);
-      border-radius: 4px;
-      padding: 14px 16px;
-      font-family: var(--mono);
-      font-size: 13px;
-      color: var(--text);
-      font-weight: 300;
-      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
-      outline: none;
-    }
-    .field input:focus,
-    .field textarea:focus,
-    .field select:focus {
-      border-color: var(--accent-dim);
-      background: rgba(74, 240, 196, 0.03);
-      box-shadow: 0 0 0 3px rgba(74, 240, 196, 0.06);
-    }
-    .field input::placeholder,
-    .field textarea::placeholder {
-      color: var(--muted-deep);
-    }
-    .field textarea {
-      resize: vertical;
-      min-height: 130px;
-      font-family: var(--mono);
-      line-height: 1.6;
-    }
-    .field select {
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='none' stroke='%234af0c4' stroke-width='1' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 16px center;
-      padding-right: 40px;
-    }
-    .field-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    @media (max-width: 500px) {
-      .field-row { grid-template-columns: 1fr; }
-    }
+    .copy-confirm.show { opacity: 1; }
 
-    .form-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+    .copy-hint {
       margin-top: 8px;
-      flex-wrap: wrap;
-    }
-    .privacy-note {
       font-family: var(--mono);
       font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
       color: var(--muted);
-      letter-spacing: 0.04em;
-      max-width: 280px;
-      line-height: 1.6;
     }
 
-    /* Success state */
-    .form-success {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 40px 28px;
-    }
-    .form-success.show { display: flex; }
-    .form-success .glyph {
-      font-size: 32px;
-      color: var(--accent);
-      margin-bottom: 18px;
-    }
-    .form-success h3 { margin-bottom: 10px; }
-    .form-success p { max-width: 360px; }
-
-    /* Office strip */
-    .office-strip {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      background: var(--border-soft);
+    /* Status footer */
+    .contact-status {
+      max-width: 540px;
+      margin: 64px auto 0;
+      padding: 22px 28px;
       border: 1px solid var(--border-soft);
-      border-radius: 6px;
-      overflow: hidden;
+      border-radius: 4px;
+      background: rgba(3, 4, 10, 0.5);
+      text-align: center;
     }
-    .office {
-      padding: 32px 28px;
-      background: rgba(3, 4, 10, 0.8);
+    .contact-status p {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.7;
     }
-    .office h4 { margin-bottom: 12px; }
-    .office p { font-size: 12.5px; }
-    .office .city {
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: 22px;
-      color: #fff;
-      margin-bottom: 6px;
+    .contact-status p + p { margin-top: 8px; }
+    .contact-status p.first {
+      color: var(--accent);
     }
-    @media (max-width: 800px) {
-      .office-strip { grid-template-columns: 1fr; }
+    .contact-status .pulse {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent);
+      margin-right: 10px;
+      vertical-align: middle;
+      animation: blink 3s ease-in-out infinite;
     }
+
+    section { padding: clamp(40px, 6vw, 80px) 0; }
+    .pill-dot { animation-duration: 3.2s; }
+    .fade-in { animation-duration: 1.2s; }
   </style>
 </head>
 <body>
@@ -235,164 +171,40 @@
   <main>
 
     <!-- Hero -->
-    <section class="hero" style="min-height: 55vh;">
+    <section class="hero">
       <div class="iris-motif">
         <div class="iris-core"></div>
         <div class="ring r1"></div>
         <div class="ring r2"></div>
         <div class="ring r3"></div>
         <div class="ring r4"></div>
-        <div class="orbit ob1"></div>
-        <div class="orbit ob2"></div>
-        <div class="orbit ob3"></div>
       </div>
       <div class="hero-inner">
         <div class="eyebrow fade-in">Contact</div>
-        <h1 class="fade-in delay-1">Say <em>hello</em></h1>
-        <p class="hero-tagline fade-in delay-2">
-          For demos, partnerships, press, or just a question — we read
-          everything that comes through.
-        </p>
+        <h1 class="brand fade-in delay-1">REACH OUT</h1>
       </div>
     </section>
 
-    <!-- Contact grid -->
-    <section style="padding-top: 20px;">
-      <div class="container">
-        <div class="contact-grid">
-
-          <!-- Left: channels -->
-          <div>
-            <div class="section-label">Reach us</div>
-            <h2 style="font-size: clamp(32px, 4.5vw, 44px);">A few <em>ways</em> in.</h2>
-            <p style="margin: 18px 0 32px; max-width: 420px;">
-              Pick whichever fits. We try to reply within one business day —
-              usually faster.
-            </p>
-
-            <div class="channels">
-              <a href="mailto:griffin@macul.ai" class="channel">
-                <span class="glyph">◎</span>
-                <div class="body">
-                  <h4>General</h4>
-                  <span class="value">griffin@macul.ai</span>
-                  <div class="meta">Founder inbox. Best for early-access requests, demos, and partnerships.</div>
-                </div>
-              </a>
-
-              <a href="mailto:support@macul.ai" class="channel">
-                <span class="glyph">⊙</span>
-                <div class="body">
-                  <h4>Support</h4>
-                  <span class="value">support@macul.ai</span>
-                  <div class="meta">For existing customers and onboarding questions.</div>
-                </div>
-              </a>
-
-              <a href="mailto:press@macul.ai" class="channel">
-                <span class="glyph">◉</span>
-                <div class="body">
-                  <h4>Press &amp; media</h4>
-                  <span class="value">press@macul.ai</span>
-                  <div class="meta">Interviews, briefings, and brand assets on request.</div>
-                </div>
-              </a>
-            </div>
-          </div>
-
-          <!-- Right: form -->
-          <div>
-            <div class="form-card">
-
-              <div id="formBody">
-                <h3>Send us a <em>note</em>.</h3>
-                <p class="form-sub">We'll get back to you at the address you provide.</p>
-
-                <div class="field-row">
-                  <div class="field">
-                    <label for="firstName">First name</label>
-                    <input id="firstName" type="text" placeholder="Ada" autocomplete="given-name" />
-                  </div>
-                  <div class="field">
-                    <label for="lastName">Last name</label>
-                    <input id="lastName" type="text" placeholder="Lovelace" autocomplete="family-name" />
-                  </div>
-                </div>
-
-                <div class="field">
-                  <label for="email">Email</label>
-                  <input id="email" type="email" placeholder="you@practice.com" autocomplete="email" />
-                </div>
-
-                <div class="field-row">
-                  <div class="field">
-                    <label for="practice">Practice</label>
-                    <input id="practice" type="text" placeholder="Optional" autocomplete="organization" />
-                  </div>
-                  <div class="field">
-                    <label for="reason">Reason</label>
-                    <select id="reason">
-                      <option>Early access</option>
-                      <option>Request a demo</option>
-                      <option>Partnership</option>
-                      <option>Press / media</option>
-                      <option>Something else</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="field">
-                  <label for="message">Message</label>
-                  <textarea id="message" placeholder="A few lines about what you're looking for…"></textarea>
-                </div>
-
-                <div class="form-footer">
-                  <div class="privacy-note">
-                    We don't share your information. Ever.
-                  </div>
-                  <button class="btn" onclick="submitForm()">Send</button>
-                </div>
-              </div>
-
-              <div class="form-success" id="formSuccess">
-                <div class="glyph">◎</div>
-                <h3>Note <em>received</em>.</h3>
-                <p>Thanks for reaching out — we'll be in touch soon.</p>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- Office strip -->
+    <!-- Contact block -->
     <section>
-      <div class="container">
-        <div style="margin-bottom: clamp(32px, 5vw, 48px);">
-          <div class="section-label">Where we are</div>
-          <h2>One <em>team</em>, distributed.</h2>
+      <div class="contact-block fade-in delay-2">
+
+        <p class="contact-intro">
+          For the waitlist, partnerships, investor inquiries, or
+          anything else, reach out directly.
+        </p>
+
+        <a href="mailto:griffin@macul.ai" class="email-card" id="emailCard">
+          griffin@macul.ai
+        </a>
+        <div class="copy-confirm" id="copyConfirm">Copied to clipboard</div>
+        <div class="copy-hint">Click to email · Right-click to copy</div>
+
+        <div class="contact-status">
+          <p class="first"><span class="pulse"></span>In active development</p>
+          <p>Inbox monitored periodically</p>
         </div>
-        <div class="office-strip">
-          <div class="office">
-            <h4>Headquarters</h4>
-            <div class="city">Placeholder</div>
-            <p>Address line one<br/>City, State ZIP</p>
-          </div>
-          <div class="office">
-            <h4>Hours</h4>
-            <div class="city">9–6, M–F</div>
-            <p>Local time, all time zones answered within one business day.</p>
-          </div>
-          <div class="office">
-            <h4>Legal</h4>
-            <div class="city">Macul, Inc.</div>
-            <p>Privacy policy and terms available on request.</p>
-          </div>
-        </div>
+
       </div>
     </section>
 
@@ -423,17 +235,36 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© Macul, Inc.</span>
+        <span>© MaculAI, LLC</span>
         <span>Early Access · 2026</span>
       </div>
     </div>
   </footer>
 
   <script>
-    function submitForm() {
-      // Placeholder — replace with real submission handler
-      document.getElementById('formBody').style.display = 'none';
-      document.getElementById('formSuccess').classList.add('show');
+    // Copy email to clipboard on shift+click or middle-click
+    const emailCard = document.getElementById('emailCard');
+    const copyConfirm = document.getElementById('copyConfirm');
+
+    emailCard.addEventListener('click', (e) => {
+      // If shift held, copy instead of opening mail client
+      if (e.shiftKey || e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        copyEmail();
+      }
+    });
+
+    emailCard.addEventListener('contextmenu', (e) => {
+      // Right-click also copies
+      e.preventDefault();
+      copyEmail();
+    });
+
+    function copyEmail() {
+      navigator.clipboard.writeText('griffin@macul.ai').then(() => {
+        copyConfirm.classList.add('show');
+        setTimeout(() => copyConfirm.classList.remove('show'), 2000);
+      });
     }
   </script>
 
