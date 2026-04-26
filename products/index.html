@@ -3,270 +3,262 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Products — Macul.ai</title>
-  <meta name="description" content="A connected suite built around how eye practices actually work." />
+  <title>Products — MaculAI</title>
+  <meta name="description" content="The platform. Eight integrated systems. One ophthalmology practice running on rails." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;1,200;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
   <link rel="icon" type="image/png" href="/favicon.png" />
   <style>
-    /* Product row — alternating layout */
-    .product-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: clamp(40px, 6vw, 96px);
-      align-items: center;
-    }
-    .product-row.reverse .product-text { order: 2; }
-    .product-row.reverse .product-visual { order: 1; }
-    @media (max-width: 850px) {
-      .product-row,
-      .product-row.reverse {
-        grid-template-columns: 1fr;
-      }
-      .product-row.reverse .product-text,
-      .product-row.reverse .product-visual { order: unset; }
-    }
+    /* Professional cosmos: matches About */
 
-    .product-num {
+    /* Iris motif: static, quiet */
+    .hero .iris-motif {
+      transform: translate(-50%, -50%);
+      opacity: 0.32;
+      width: 360px;
+      height: 360px;
+    }
+    .hero .iris-motif .ring { animation: none !important; }
+    .hero .iris-motif .ring::before {
+      border-style: solid !important;
+      border-color: rgba(74, 240, 196, 0.08) !important;
+    }
+    .hero .iris-motif .orbit { display: none; }
+
+    /* Hero: branded, tight */
+    .hero {
+      min-height: 42vh;
+      padding-top: 110px;
+      padding-bottom: 50px;
+    }
+    .hero h1.brand {
       font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.3em;
-      color: var(--accent);
-      margin-bottom: 12px;
-      display: block;
+      font-size: clamp(34px, 5vw, 56px);
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 0 60px rgba(0,0,0,0.85);
+      margin: 0;
+      line-height: 1;
     }
 
-    .product-features {
-      list-style: none;
-      margin-top: 28px;
-      display: grid;
-      gap: 10px;
-    }
-    .product-features li {
+    /* Section heading: blueprint label */
+    .section-heading {
       font-family: var(--mono);
-      font-size: 13px;
-      color: var(--text-soft);
-      padding-left: 22px;
-      position: relative;
-    }
-    .product-features li::before {
-      content: '◎';
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: var(--accent);
-      font-size: 11px;
-    }
-
-    /* Product visual — abstract representation */
-    .product-visual {
-      position: relative;
-      aspect-ratio: 1 / 0.85;
-      border: 1px solid var(--border-soft);
-      border-radius: 8px;
-      overflow: hidden;
-      background:
-        radial-gradient(ellipse at 30% 20%, rgba(74,240,196,0.06) 0%, transparent 60%),
-        linear-gradient(180deg, rgba(6,13,17,0.6), rgba(2,4,8,0.9));
-    }
-    .product-visual::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(74,240,196,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(74,240,196,0.04) 1px, transparent 1px);
-      background-size: 32px 32px;
-      mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
-      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
-    }
-    .product-visual-inner {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Visual 1 — charting grid */
-    .viz-chart {
-      width: 70%;
-      height: 60%;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 14px;
-      background: rgba(3, 4, 10, 0.6);
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      gap: 10px;
-    }
-    .viz-chart .row {
-      height: 10px;
-      background: rgba(74, 240, 196, 0.08);
-      border-radius: 2px;
-      position: relative;
-    }
-    .viz-chart .row.accent {
-      background: rgba(74, 240, 196, 0.3);
-      width: 60%;
-    }
-    .viz-chart .stack {
-      display: grid;
-      gap: 6px;
-      align-content: start;
-    }
-    .viz-chart .chip {
-      height: 8px;
-      border-radius: 2px;
-      background: rgba(200,230,220,0.1);
-    }
-    .viz-chart .chip.a { width: 80%; background: rgba(74, 240, 196, 0.25); }
-    .viz-chart .chip.b { width: 55%; }
-    .viz-chart .chip.c { width: 72%; }
-    .viz-chart .chip.d { width: 40%; background: rgba(74, 240, 196, 0.15); }
-
-    /* Visual 2 — diagnostic eye */
-    .viz-iris {
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      position: relative;
-      background: radial-gradient(circle at 50% 50%,
-        #010204 0%,
-        #010204 28%,
-        rgba(10,38,28,0.6) 40%,
-        rgba(18,55,42,0.7) 50%,
-        rgba(10,38,28,0.4) 70%,
-        rgba(2,7,5,0.1) 90%);
-      box-shadow: 0 0 40px rgba(74,240,196,0.1);
-    }
-    .viz-iris::before {
-      content: '';
-      position: absolute;
-      inset: -6px;
-      border-radius: 50%;
-      border: 1px solid rgba(74,240,196,0.25);
-    }
-    .viz-iris::after {
-      content: '';
-      position: absolute;
-      inset: 8%;
-      border-radius: 50%;
-      border: 1px dashed rgba(74,240,196,0.2);
-      animation: spin 32s linear infinite;
-    }
-    .viz-crosshair {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-    .viz-crosshair .line {
-      position: absolute;
-      background: rgba(74, 240, 196, 0.35);
-    }
-    .viz-crosshair .h {
-      top: 50%;
-      left: 10%;
-      right: 10%;
-      height: 1px;
-    }
-    .viz-crosshair .v {
-      left: 50%;
-      top: 10%;
-      bottom: 10%;
-      width: 1px;
-    }
-    .viz-dot {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 10px var(--accent);
-    }
-    .viz-label {
-      position: absolute;
-      font-family: var(--mono);
-      font-size: 9px;
-      letter-spacing: 0.2em;
+      font-size: clamp(13px, 1.3vw, 15px);
+      font-weight: 500;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
       color: var(--accent);
-      padding: 4px 8px;
-      border: 1px solid var(--border);
-      background: rgba(3, 4, 10, 0.85);
-      border-radius: 3px;
-    }
-
-    /* Visual 3 — integration nodes */
-    .viz-nodes {
-      width: 80%;
-      height: 80%;
-      position: relative;
-    }
-    .node {
-      position: absolute;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      background: rgba(3, 4, 10, 0.9);
+      margin-bottom: 32px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--muted);
-      letter-spacing: 0.14em;
+      gap: 14px;
     }
-    .node.center {
-      width: 80px;
-      height: 80px;
-      border-color: var(--accent);
-      color: var(--accent);
-      box-shadow: 0 0 20px rgba(74, 240, 196, 0.2);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 2;
+    .section-heading::before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: var(--accent);
+      flex-shrink: 0;
     }
-    .node.n1 { top: 8%; left: 20%; }
-    .node.n2 { top: 8%; right: 20%; }
-    .node.n3 { bottom: 8%; left: 20%; }
-    .node.n4 { bottom: 8%; right: 20%; }
-    .viz-link {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 1px;
-      height: 100px;
-      transform-origin: top center;
-      background: linear-gradient(180deg, rgba(74,240,196,0.4), transparent);
-    }
-    .viz-link.l1 { transform: translate(-50%, 0) rotate(45deg); }
-    .viz-link.l2 { transform: translate(-50%, 0) rotate(135deg); }
-    .viz-link.l3 { transform: translate(-50%, 0) rotate(225deg); }
-    .viz-link.l4 { transform: translate(-50%, 0) rotate(315deg); }
 
-    /* Feature strip */
-    .feature-strip {
+    /* Prose body */
+    .prose-body {
+      max-width: 720px;
+    }
+    .prose-body p {
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.85;
+      color: var(--text-soft);
+    }
+    .prose-body p + p { margin-top: 22px; }
+
+    /* Eight systems grid */
+    .systems-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
-      background: var(--border-soft);
+      gap: 18px;
+    }
+    @media (max-width: 1000px) { .systems-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px)  { .systems-grid { grid-template-columns: 1fr; } }
+
+    .system-card {
+      padding: 28px 24px;
       border: 1px solid var(--border-soft);
-      border-radius: 6px;
-      overflow: hidden;
+      border-radius: 4px;
+      background: rgba(74, 240, 196, 0.012);
+      transition: border-color 0.3s, background 0.3s;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 220px;
     }
-    .feature-strip .cell {
-      padding: 32px 24px;
-      background: rgba(3, 4, 10, 0.8);
+    .system-card:hover {
+      border-color: var(--border);
+      background: rgba(74, 240, 196, 0.03);
     }
-    .feature-strip h4 { margin-bottom: 10px; }
-    .feature-strip p { font-size: 12px; }
-    @media (max-width: 900px) { .feature-strip { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 500px) { .feature-strip { grid-template-columns: 1fr; } }
+    .system-card .num {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      color: var(--accent);
+    }
+    .system-card .title {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #fff;
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+    .system-card p {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--text-soft);
+      margin: 0;
+    }
+
+    /* Roadmap */
+    .roadmap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    @media (max-width: 900px) { .roadmap { grid-template-columns: 1fr; } }
+
+    .phase {
+      padding: 32px 28px;
+      border: 1px solid var(--border-soft);
+      border-radius: 4px;
+      background: rgba(3, 4, 10, 0.6);
+      position: relative;
+    }
+    .phase .phase-num {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .phase .phase-name {
+      font-family: var(--mono);
+      font-size: 17px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+    .phase .phase-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 8px;
+    }
+    .phase .phase-list li {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      font-weight: 300;
+      color: var(--text-soft);
+      padding-left: 18px;
+      position: relative;
+    }
+    .phase .phase-list li::before {
+      content: '·';
+      position: absolute;
+      left: 4px;
+      top: -2px;
+      color: var(--accent);
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .roadmap-status {
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-soft);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .roadmap-status .status-pulse {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+      margin-right: 10px;
+      vertical-align: middle;
+      box-shadow: 0 0 8px var(--accent);
+      animation: blink 3s ease-in-out infinite;
+    }
+
+    /* Why MaculAI columns */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    @media (max-width: 900px) { .why-grid { grid-template-columns: 1fr; gap: 28px; } }
+
+    .why-col h4 {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .why-col p {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--text-soft);
+      margin: 0;
+    }
+
+    /* Closing CTA */
+    .closing {
+      text-align: center;
+      padding: clamp(60px, 9vw, 100px) 0;
+    }
+    .closing p {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 32px;
+    }
+
+    /* Section spacing */
+    section {
+      padding: clamp(70px, 9vw, 110px) 0;
+    }
+
+    /* Slow the pill dot */
+    .pill-dot { animation-duration: 3.2s; }
+    .fade-in { animation-duration: 1.2s; }
   </style>
 </head>
 <body>
@@ -296,188 +288,196 @@
         <div class="ring r2"></div>
         <div class="ring r3"></div>
         <div class="ring r4"></div>
-        <div class="orbit ob1"></div>
-        <div class="orbit ob2"></div>
-        <div class="orbit ob3"></div>
       </div>
       <div class="hero-inner">
-        <div class="eyebrow fade-in">The Platform</div>
-        <h1 class="fade-in delay-1">Our <em>instruments</em></h1>
-        <p class="hero-tagline fade-in delay-2">
-          A connected suite, built around how the modern eye practice
-          actually works.
-        </p>
+        <div class="eyebrow fade-in">Products</div>
+        <h1 class="brand fade-in delay-1">THE PLATFORM</h1>
       </div>
     </section>
 
     <div class="divider"></div>
 
-    <!-- Product 1 — Smart Charting -->
+    <!-- The Overview -->
     <section>
       <div class="container">
-        <div class="product-row">
-          <div class="product-text">
-            <span class="product-num">01 · Charting</span>
-            <h2>Smart <em>Charting</em></h2>
-            <p class="lead">
-              Clinical notes that write themselves — and read like you wrote
-              them.
-            </p>
-            <p>
-              Macul listens, structures, and drafts. The clinician reviews,
-              edits, signs. Voice, image, and prior history flow into a
-              single note in the format your practice expects.
-            </p>
-            <ul class="product-features">
-              <li>Ambient clinical documentation</li>
-              <li>Specialty-tuned language models</li>
-              <li>Template-aware, not template-bound</li>
-              <li>Full edit history and audit trail</li>
+        <div class="prose-body">
+          <div class="section-heading">The Overview</div>
+          <p>
+            Most ophthalmology practices today run on a stack of
+            disconnected tools. The EHR does not talk to the imaging
+            machines. The phone system does not talk to the schedule.
+            Billing happens in a separate world from charting. Front
+            desk, scheduling, communications, and clinical
+            documentation all live in different software, with staff
+            acting as the human glue between them.
+          </p>
+          <p>
+            MaculAI replaces that stack. One platform, eight integrated
+            systems, designed around how an eye practice actually
+            operates. Every doctor's note, every scan, every phone call,
+            every claim, in one system, talking to itself.
+          </p>
+          <p>
+            The result is a practice that runs on rails. Less time
+            hunting between systems, more time with the patient.
+            Scheduling anomalies caught before they become errors.
+            Clinical changes surfaced before they get missed. The clinic
+            responds to the patient, not to the software.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- The Eight Systems -->
+    <section>
+      <div class="container">
+        <div class="section-heading">The Eight Systems</div>
+        <div class="systems-grid">
+
+          <div class="system-card">
+            <div class="num">01</div>
+            <div class="title">Records &amp; Correspondence</div>
+            <p>Inbound referrals, faxes, and prior records flow into the chart automatically. Outbound referrals carry full relevant history with them. The paperwork moves itself.</p>
+          </div>
+
+          <div class="system-card">
+            <div class="num">02</div>
+            <div class="title">Patient Communications</div>
+            <p>An AI phone agent handles routine calls, triages urgency, and structures every interaction into a ticket. Urgent calls escalate to a human in seconds. Routine ones never need to.</p>
+          </div>
+
+          <div class="system-card">
+            <div class="num">03</div>
+            <div class="title">Smart Scheduling</div>
+            <p>A rules engine enforces how the practice actually books. Block types, surgery days, no-double-book rules. Cancellations on a doctor's day get rebooked automatically.</p>
+          </div>
+
+          <div class="system-card">
+            <div class="num">04</div>
+            <div class="title">Diagnostic Integration</div>
+            <p>Every machine in the lane: OCT, biometry, topography, specular, fundus, visual field. All feeding directly into the chart at the moment of capture. No double entry.</p>
+          </div>
+
+          <div class="system-card">
+            <div class="num">05</div>
+            <div class="title">Image Intelligence</div>
+            <p>Trend tracking and change detection across modalities. Macular edema progression, corneal thickness down to the micron, specular cell density changes. The longitudinal picture surfaces when the chart opens.</p>
+          </div>
+
+          <div class="system-card">
+            <div class="num">06</div>
+            <div class="title">Front Desk</div>
+            <p>Check-in, insurance verification, intake forms, patient identification. Automated where it can be, structured where it cannot. The first ten minutes of the visit move on rails.</p>
+          </div>
+
+          <div class="system-card">
+            <div class="num">07</div>
+            <div class="title">Billing &amp; Claims</div>
+            <p>Coding suggested from chart documentation. Vision and medical claims split correctly. Denials tracked, resubmitted, and followed up without manual chasing.</p>
+          </div>
+
+          <div class="system-card">
+            <div class="num">08</div>
+            <div class="title">Charting &amp; EHR</div>
+            <p>The central chart every other system feeds into. Timeline view of the entire patient history readable in 30 seconds. Built around how an ophthalmic exam actually flows.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- The Roadmap -->
+    <section>
+      <div class="container">
+        <div class="section-heading">The Roadmap</div>
+        <div class="roadmap">
+
+          <div class="phase">
+            <div class="phase-num">Phase 1</div>
+            <div class="phase-name">Foundation</div>
+            <ul class="phase-list">
+              <li>Records &amp; Correspondence</li>
+              <li>Patient Communications</li>
+              <li>Smart Scheduling</li>
             </ul>
           </div>
-          <div class="product-visual">
-            <div class="product-visual-inner">
-              <div class="viz-chart">
-                <div class="row accent"></div>
-                <div class="stack">
-                  <div class="chip a"></div>
-                  <div class="chip b"></div>
-                  <div class="chip c"></div>
-                  <div class="chip d"></div>
-                  <div class="chip b"></div>
-                </div>
-                <div class="row"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <div class="divider"></div>
-
-    <!-- Product 2 — AI Diagnostics -->
-    <section>
-      <div class="container">
-        <div class="product-row reverse">
-          <div class="product-text">
-            <span class="product-num">02 · Diagnostics</span>
-            <h2>AI <em>Diagnostics</em></h2>
-            <p class="lead">
-              Image-aware assistance, calibrated to clinical reality.
-            </p>
-            <p>
-              Macul's vision models flag findings, quantify change over time,
-              and present the evidence alongside — so every decision remains
-              yours, with more context than you had a moment ago.
-            </p>
-            <ul class="product-features">
-              <li>OCT, fundus, and anterior segment support</li>
-              <li>Change detection across prior visits</li>
-              <li>Evidence-linked, explainable outputs</li>
-              <li>Continuously validated against clinical data</li>
+          <div class="phase">
+            <div class="phase-num">Phase 2</div>
+            <div class="phase-name">Clinical Core</div>
+            <ul class="phase-list">
+              <li>Diagnostic Integration</li>
+              <li>Image Intelligence</li>
+              <li>Front Desk</li>
             </ul>
           </div>
-          <div class="product-visual">
-            <div class="product-visual-inner">
-              <div style="position:relative;">
-                <div class="viz-iris"></div>
-                <div class="viz-crosshair">
-                  <div class="line h"></div>
-                  <div class="line v"></div>
-                </div>
-                <div class="viz-dot" style="top: 28%; left: 32%;"></div>
-                <div class="viz-dot" style="top: 64%; left: 70%;"></div>
-                <div class="viz-label" style="top: 14%; right: -12%;">Ø 0.42</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <div class="divider"></div>
-
-    <!-- Product 3 — Seamless Integration -->
-    <section>
-      <div class="container">
-        <div class="product-row">
-          <div class="product-text">
-            <span class="product-num">03 · Integration</span>
-            <h2>Seamless <em>Integration</em></h2>
-            <p class="lead">
-              The systems you already use — connected, finally, to each other.
-            </p>
-            <p>
-              Macul sits at the center of your tools, not on top of them. EHR,
-              imaging devices, scheduling, billing — all speaking in one voice,
-              inside a single surface.
-            </p>
-            <ul class="product-features">
-              <li>Bidirectional EHR synchronization</li>
-              <li>Native device and DICOM support</li>
-              <li>HIPAA-aligned by default</li>
-              <li>Zero-disruption deployment</li>
+          <div class="phase">
+            <div class="phase-num">Phase 3</div>
+            <div class="phase-name">Full Platform</div>
+            <ul class="phase-list">
+              <li>Billing &amp; Claims</li>
+              <li>Charting &amp; EHR</li>
             </ul>
           </div>
-          <div class="product-visual">
-            <div class="product-visual-inner">
-              <div class="viz-nodes">
-                <div class="viz-link l1"></div>
-                <div class="viz-link l2"></div>
-                <div class="viz-link l3"></div>
-                <div class="viz-link l4"></div>
-                <div class="node n1">EHR</div>
-                <div class="node n2">OCT</div>
-                <div class="node n3">RCM</div>
-                <div class="node n4">SCH</div>
-                <div class="node center">◎</div>
-              </div>
-            </div>
-          </div>
+
+        </div>
+        <div class="roadmap-status">
+          <span class="status-pulse"></span>Currently in active development
         </div>
       </div>
     </section>
 
     <div class="divider"></div>
 
-    <!-- Feature strip -->
+    <!-- Why MaculAI -->
     <section>
       <div class="container">
-        <div style="text-align:center; margin-bottom: clamp(40px, 6vw, 72px);">
-          <div class="section-label" style="justify-content:center;">At every layer</div>
-          <h2>Built for <em>practice</em>.</h2>
-        </div>
-        <div class="feature-strip">
-          <div class="cell">
-            <h4>Secure</h4>
-            <p>HIPAA-aligned architecture with full audit logging and role-based access.</p>
+        <div class="section-heading">Why MaculAI</div>
+        <div class="why-grid">
+
+          <div class="why-col">
+            <h4>Built by a Tech</h4>
+            <p>
+              Years working as an ophthalmic tech. A lifetime immersed
+              in technology. Every system in MaculAI is modeled on what
+              actually slows a clinic down day to day, and what would
+              fix it.
+            </p>
           </div>
-          <div class="cell">
-            <h4>Validated</h4>
-            <p>Every model backed by peer-reviewed evaluation and clinical partnership.</p>
+
+          <div class="why-col">
+            <h4>Trained on the Data That Matters</h4>
+            <p>
+              Image analysis trained across every modality used in eye
+              care, drawing on hundreds of thousands of scans.
+              Longitudinal data accumulates with every visit on the
+              system.
+            </p>
           </div>
-          <div class="cell">
-            <h4>Open</h4>
-            <p>Your data remains yours. Export, migrate, and integrate without friction.</p>
+
+          <div class="why-col">
+            <h4>Built Unified, Not Stitched</h4>
+            <p>
+              Every system shares one schema, one chart, one source of
+              truth. No bolted-on integrations. No data silos. The
+              architectural advantage compounds as the platform scales.
+            </p>
           </div>
-          <div class="cell">
-            <h4>Supported</h4>
-            <p>Real humans, real practice experience, reachable when it matters.</p>
-          </div>
+
         </div>
       </div>
     </section>
 
-    <!-- CTA -->
-    <section>
-      <div class="container text-center">
-        <h2>See it <em>in motion</em>.</h2>
-        <p class="max-prose mx-auto mt-lg" style="margin-bottom: 36px;">
-          We're onboarding a small number of practices into early access.
-          Reach out and we'll show you around.
-        </p>
-        <a href="/contact/" class="btn">Request a demo</a>
+    <!-- Closing CTA -->
+    <section class="closing">
+      <div class="container">
+        <p>Early access · Partnerships · Investor inquiries</p>
+        <a href="/contact/" class="btn">Get in touch</a>
       </div>
     </section>
 
@@ -508,7 +508,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© Macul, Inc.</span>
+        <span>© MaculAI, LLC</span>
         <span>Early Access · 2026</span>
       </div>
     </div>
