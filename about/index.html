@@ -3,119 +3,116 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>About — Macul.ai</title>
-  <meta name="description" content="A team of clinicians, engineers, and designers rethinking how eye care works." />
+  <title>About — MaculAI</title>
+  <meta name="description" content="An end-to-end practice platform for ophthalmology." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;1,200;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
   <link rel="icon" type="image/png" href="/favicon.png" />
   <style>
-    /* Page-specific */
-    .mission {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: clamp(32px, 6vw, 80px);
-      align-items: center;
-    }
-    @media (max-width: 800px) {
-      .mission { grid-template-columns: 1fr; }
-    }
+    /* Professional cosmos: keep the look, kill the flash */
 
-    .stat-strip {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      background: var(--border-soft);
-      border: 1px solid var(--border-soft);
-      border-radius: 6px;
-      overflow: hidden;
-    }
-    .stat {
-      padding: 36px 28px;
-      background: rgba(3, 4, 10, 0.8);
-      text-align: center;
-    }
-    .stat .num {
-      font-family: var(--serif);
-      font-size: clamp(40px, 5vw, 56px);
-      font-weight: 200;
-      color: #fff;
-      line-height: 1;
-      margin-bottom: 10px;
-    }
-    .stat .num em {
-      font-style: italic;
-      color: var(--accent);
-    }
-    .stat .label {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    @media (max-width: 700px) {
-      .stat-strip { grid-template-columns: 1fr; }
-    }
-
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-    }
-    @media (max-width: 900px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 500px) { .team-grid { grid-template-columns: 1fr; } }
-
-    .team-card {
-      padding: 32px 24px;
-      border: 1px solid var(--border-soft);
-      border-radius: 6px;
-      background: rgba(74, 240, 196, 0.015);
-      text-align: center;
-      transition: border-color 0.3s, background 0.3s;
-    }
-    .team-card:hover {
-      border-color: var(--border);
-      background: rgba(74, 240, 196, 0.03);
-    }
-    .avatar {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      margin: 0 auto 18px;
-      background: radial-gradient(circle at 30% 30%,
-        rgba(74, 240, 196, 0.25),
-        rgba(10, 38, 28, 0.4) 60%,
-        rgba(5, 14, 11, 0.9) 100%);
-      border: 1px solid var(--border);
-      position: relative;
-    }
-    .avatar::after {
-      content: '';
-      position: absolute;
-      inset: 12px;
-      border-radius: 50%;
-      border: 1px dashed rgba(74, 240, 196, 0.2);
-    }
-    .team-card .name {
-      font-family: var(--serif);
-      font-size: 19px;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-    .team-card .role {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    /* Hero decorative iris offset */
+    /* Iris motif: kill all motion, simplify to a quiet glow */
     .hero .iris-motif {
       transform: translate(-50%, -50%);
       opacity: 0.4;
+      width: 360px;
+      height: 360px;
+    }
+    .hero .iris-motif .ring {
+      animation: none !important;
+    }
+    .hero .iris-motif .ring::before {
+      border-style: solid !important;
+      border-color: rgba(74, 240, 196, 0.08) !important;
+    }
+    .hero .iris-motif .orbit {
+      display: none;
+    }
+
+    /* Hero: tighter, branded, not flashy */
+    .hero {
+      min-height: 46vh;
+      padding-top: 110px;
+      padding-bottom: 60px;
+    }
+    .hero h1.brand {
+      font-family: var(--mono);
+      font-size: clamp(40px, 6vw, 68px);
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 0 60px rgba(0,0,0,0.85);
+      margin: 0;
+      line-height: 1;
+    }
+
+    /* Section heading: like a blueprint label */
+    .section-heading {
+      font-family: var(--mono);
+      font-size: clamp(13px, 1.3vw, 15px);
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .section-heading::before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* About body: clean prose, max-width controlled */
+    .about-body {
+      max-width: 700px;
+    }
+    .about-body p {
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.85;
+      color: var(--text-soft);
+    }
+    .about-body p + p {
+      margin-top: 22px;
+    }
+    .about-body p strong {
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    /* Signature: clean, mint, unmistakable */
+    .signature {
+      margin-top: 40px;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    /* Section spacing: generous but not bloated */
+    section {
+      padding: clamp(70px, 9vw, 110px) 0;
+    }
+
+    /* Slow the pill dot — less flashy */
+    .pill-dot {
+      animation-duration: 3.2s;
+    }
+
+    /* Slow fades */
+    .fade-in {
+      animation-duration: 1.2s;
     }
   </style>
 </head>
@@ -146,89 +143,41 @@
         <div class="ring r2"></div>
         <div class="ring r3"></div>
         <div class="ring r4"></div>
-        <div class="orbit ob1"></div>
-        <div class="orbit ob2"></div>
-        <div class="orbit ob3"></div>
       </div>
       <div class="hero-inner">
-        <div class="eyebrow fade-in">About Macul</div>
-        <h1 class="fade-in delay-1">Built to <em>see</em></h1>
-        <p class="hero-tagline fade-in delay-2">
-          A small team of clinicians, engineers, and designers rethinking
-          how the modern eye practice works.
-        </p>
+        <div class="eyebrow fade-in">About</div>
+        <h1 class="brand fade-in delay-1">MACULAI</h1>
       </div>
     </section>
 
     <div class="divider"></div>
 
-    <!-- Mission -->
+    <!-- What MaculAI Is -->
     <section>
       <div class="container">
-        <div class="mission">
-          <div>
-            <div class="section-label">Our Mission</div>
-            <h2>Clarity, for the people <em>who find it</em> for others.</h2>
-          </div>
-          <div>
-            <p class="lead">
-              Ophthalmology is one of the most information-dense specialties
-              in medicine — and one of the most under-served by the software
-              built around it.
-            </p>
-            <p>
-              We build the infrastructure that lets clinicians focus on the
-              patient in front of them, not the interface between them.
-              Intelligent charting, image-aware diagnostics, and integrations
-              that actually hold — in a single, quiet system.
-            </p>
-            <p>
-              Our work sits at the intersection of care and computation. Every
-              decision we make is in service of that line.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Stats -->
-    <section style="padding-top: 0;">
-      <div class="container">
-        <div class="stat-strip">
-          <div class="stat">
-            <div class="num"><em>1</em></div>
-            <div class="label">Unified Platform</div>
-          </div>
-          <div class="stat">
-            <div class="num">∞</div>
-            <div class="label">Integration Paths</div>
-          </div>
-          <div class="stat">
-            <div class="num"><em>0</em></div>
-            <div class="label">Extra Clicks</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- Story -->
-    <section>
-      <div class="container">
-        <div class="text-center max-prose mx-auto">
-          <div class="section-label" style="justify-content:center;">The Story</div>
-          <h2>A practice-shaped <em>problem</em>.</h2>
-          <p class="mt-lg">
-            Macul began in a clinic. Years of watching the same friction —
-            hunting across systems, retyping the same notes, waiting on
-            images — made the shape of the problem obvious. The solution
-            was harder, and that's what we set out to build.
+        <div class="about-body">
+          <div class="section-heading">What MaculAI Is</div>
+          <p>
+            MaculAI is an end-to-end practice platform for ophthalmology
+            that unifies charting, scheduling, billing, communications,
+            and imaging into one system, powered by AI.
+            The work began inside a long established practice on
+            the gulf coast of Florida, the kind of office a community
+            has trusted for generations and the kind of office that has
+            trusted MaculAI to build for it.
           </p>
           <p>
-            Today, Macul is a platform built by people who know the difference
-            between a tool that looks good in a demo and one that holds up
-            on a Tuesday afternoon.
+            At its center is image analysis trained across every
+            modality used in an eye exam, drawing on hundreds of
+            thousands of scans. It is not a replacement for clinical
+            judgment. It is a tool. A second set of eyes that puts the
+            right information in front of the doctor at the right
+            moment, and a fuller picture of every case than any one
+            clinician could hold in memory.
+          </p>
+          <p>
+            MaculAI is the shift. The future of medicine is taking
+            shape here, in the room where the work happens.
           </p>
         </div>
       </div>
@@ -236,91 +185,57 @@
 
     <div class="divider"></div>
 
-    <!-- Principles -->
+    <!-- What It Does -->
     <section>
       <div class="container">
-        <div style="text-align:center; margin-bottom: clamp(40px, 6vw, 72px);">
-          <div class="section-label" style="justify-content:center;">What we believe</div>
-          <h2>Three <em>principles</em>.</h2>
-        </div>
-        <div class="grid-3">
-          <div class="card">
-            <span class="glyph">◎</span>
-            <h3>Clarity</h3>
-            <p>
-              Software in a clinic should disappear. We obsess over the moments
-              where attention is most precious — and we make sure we're not
-              one of them.
-            </p>
-          </div>
-          <div class="card">
-            <span class="glyph">⊙</span>
-            <h3>Precision</h3>
-            <p>
-              Models are only as trustworthy as the rigor behind them.
-              Everything we ship is validated, auditable, and built to fail
-              gracefully when it must.
-            </p>
-          </div>
-          <div class="card">
-            <span class="glyph">◉</span>
-            <h3>Partnership</h3>
-            <p>
-              We work alongside the practices that use us — shaping the product
-              in the room where the work happens, not from a distance.
-            </p>
-          </div>
+        <div class="about-body">
+          <div class="section-heading">What It Does</div>
+          <p>
+            Data entry and imaging from every diagnostic machine, all
+            in one place. Clinic turnaround time goes down. More
+            patient-facing time. More personalized care.
+          </p>
+          <p>
+            Complete patient context at the doctor's fingertips.
+            Imaging, measurements, and changes over time presented
+            together, so the full picture reads in seconds and every
+            decision is made on a more complete view of the case.
+          </p>
+          <p>
+            Automated referral processing, with patient history that
+            moves with the patient.
+          </p>
         </div>
       </div>
     </section>
 
     <div class="divider"></div>
 
-    <!-- Team (placeholder) -->
+    <!-- In Memory of Shane Chism -->
     <section>
       <div class="container">
-        <div style="text-align:center; margin-bottom: clamp(40px, 6vw, 72px);">
-          <div class="section-label" style="justify-content:center;">The Team</div>
-          <h2>Small, <em>deliberate</em>.</h2>
-          <p class="max-prose mx-auto mt-lg">
-            Clinicians, ML researchers, and product builders — working closely,
-            shipping carefully.
+        <div class="about-body">
+          <div class="section-heading">In Memory of Shane Chism</div>
+          <p>
+            Shane spent ten years at Microsoft building the systems
+            that millions of people use every day. Identity.
+            Connectivity. The infrastructure inside Microsoft Teams,
+            Loop, and the Microsoft account platform. He held patents
+            on intelligent systems for connecting people to
+            information, and he was a core builder of where AI
+            development was headed inside one of the companies leading
+            it.
           </p>
+          <p>
+            He passed in his early thirties from liver cancer, despite
+            being in good health.
+          </p>
+          <p>
+            I always looked up to what he was doing. MaculAI draws
+            from that, and carries it forward.
+          </p>
+          <div class="signature">Griffin</div>
         </div>
-        <div class="team-grid">
-          <div class="team-card">
-            <div class="avatar"></div>
-            <div class="name">Name</div>
-            <div class="role">Role</div>
-          </div>
-          <div class="team-card">
-            <div class="avatar"></div>
-            <div class="name">Name</div>
-            <div class="role">Role</div>
-          </div>
-          <div class="team-card">
-            <div class="avatar"></div>
-            <div class="name">Name</div>
-            <div class="role">Role</div>
-          </div>
-          <div class="team-card">
-            <div class="avatar"></div>
-            <div class="name">Name</div>
-            <div class="role">Role</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section style="padding-top: 40px;">
-      <div class="container text-center">
-        <h2>Want to <em>see it</em>?</h2>
-        <p class="max-prose mx-auto mt-lg" style="margin-bottom: 36px;">
-          We're rolling out early access in small waves. Send us a note and
-          we'll get back to you.
-        </p>
-        <a href="/contact/" class="btn">Get in touch</a>
       </div>
     </section>
 
@@ -351,7 +266,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© Macul, Inc.</span>
+        <span>© MaculAI, LLC</span>
         <span>Early Access · 2026</span>
       </div>
     </div>
